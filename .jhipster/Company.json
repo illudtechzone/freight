@@ -1,0 +1,51 @@
+{
+    "name": "Company",
+    "fields": [
+        {
+            "fieldName": "companyIdpCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phoneNumber",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationGeopoint",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "vehicle",
+            "otherEntityRelationshipName": "company",
+            "relationshipName": "vehicle"
+        }
+    ],
+    "changelogDate": "20190920043815",
+    "entityTableName": "company",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}

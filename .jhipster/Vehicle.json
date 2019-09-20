@@ -1,0 +1,47 @@
+{
+    "name": "Vehicle",
+    "fields": [
+        {
+            "fieldName": "registerNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "vehicleLookupId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "currentLocationGeopoint",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "occupied",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "driver",
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "driver",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "company",
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "company",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190920043816",
+    "entityTableName": "vehicle",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}
