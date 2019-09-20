@@ -54,9 +54,13 @@ public class VehicleResource {
             throw new BadRequestAlertException("A new vehicle cannot already have an ID", ENTITY_NAME, "idexists");
         }
         VehicleDTO result = vehicleService.save(vehicleDTO);
-        return ResponseEntity.created(new URI("/api/vehicles/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        if (result.getId()== null) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idnull");
+        }
+        VehicleDTO result1 = vehicleService.save(result);
+        return ResponseEntity.created(new URI("/api/vehicles/" + result1.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result1.getId().toString()))
+            .body(result1);
     }
 
     /**

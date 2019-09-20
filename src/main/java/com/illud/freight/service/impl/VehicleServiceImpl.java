@@ -52,16 +52,17 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle = vehicleRepository.save(vehicle);
         VehicleDTO result = vehicleMapper.toDto(vehicle);
         vehicleSearchRepository.save(vehicle);
-        return update(result);
-    }
-    public VehicleDTO update(VehicleDTO vehicleDTO) {
-        log.debug("Request to save Vehicle : {}", vehicleDTO);
-        Vehicle vehicle = vehicleMapper.toEntity(vehicleDTO);
-        vehicle = vehicleRepository.save(vehicle);
-        VehicleDTO result = vehicleMapper.toDto(vehicle);
-        vehicleSearchRepository.save(vehicle);
         return result;
     }
+
+	/*
+	 * public VehicleDTO update(VehicleDTO vehicleDTO) {
+	 * log.debug("Request to save Vehicle : {}", vehicleDTO); Vehicle vehicle =
+	 * vehicleMapper.toEntity(vehicleDTO); vehicle =
+	 * vehicleRepository.save(vehicle); VehicleDTO result =
+	 * vehicleMapper.toDto(vehicle); vehicleSearchRepository.save(vehicle); return
+	 * result; }
+	 */
     /**
      * Get all the vehicles.
      *
