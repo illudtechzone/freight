@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.illud.freight",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.8.2",
+    "applicationType": "microservice",
+    "baseName": "freight",
+    "packageName": "com.illud.freight",
+    "packageFolder": "com/illud/freight",
+    "serverPort": "8085",
+    "authenticationType": "oauth2",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NmQyZjkyNWQxNTE0OTMwY2RmZWFlMGZjNWU1ZmYxNGJiMTA1YWVmMmVmNmRmODRlMjYzNTM5N2M5ZDUxODFiZjRlZDFhNmEzZWM0NWRhZGVjYzIyOTgxNmNiZTk3MjIyNzkyMDBiNmY3ZGMzOTY4MGZjNDUwYzk5M2IxNjQ4ZmY=",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
