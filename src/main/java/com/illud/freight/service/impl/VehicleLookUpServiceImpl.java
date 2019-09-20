@@ -57,7 +57,7 @@ public class VehicleLookUpServiceImpl implements VehicleLookUpService {
     public VehicleLookUpDTO update(VehicleLookUpDTO vehicleLookUpDTO) {
         log.debug("Request to save VehicleLookUp : {}", vehicleLookUpDTO);
         VehicleLookUp vehicleLookUp = vehicleLookUpMapper.toEntity(vehicleLookUpDTO);
-        //vehicleLookUp = vehicleLookUpRepository.save(vehicleLookUp);
+        vehicleLookUp = vehicleLookUpRepository.save(vehicleLookUp);
         VehicleLookUpDTO result = vehicleLookUpMapper.toDto(vehicleLookUp);
         vehicleLookUpSearchRepository.save(vehicleLookUp);
         return result;

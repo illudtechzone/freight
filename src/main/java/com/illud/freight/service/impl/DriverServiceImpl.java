@@ -57,7 +57,7 @@ public class DriverServiceImpl implements DriverService {
     public DriverDTO update(DriverDTO driverDTO) {
         log.debug("Request to save Driver : {}", driverDTO);
         Driver driver = driverMapper.toEntity(driverDTO);
-        //driver = driverRepository.save(driver);
+        driver = driverRepository.save(driver);
         DriverDTO result = driverMapper.toDto(driver);
         driverSearchRepository.save(driver);
         return result;

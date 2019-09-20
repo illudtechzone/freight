@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO update(CustomerDTO customerDTO) {
         log.debug("Request to update Customer : {}", customerDTO);
         Customer customer = customerMapper.toEntity(customerDTO);
-        //customer = customerRepository.save(customer);
+        customer = customerRepository.save(customer);
         CustomerDTO result = customerMapper.toDto(customer);
         customerSearchRepository.save(customer);
         return result;
