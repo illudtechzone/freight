@@ -1,0 +1,96 @@
+
+
+
+
+entity Customer
+{
+customerIdpCode String,
+name String,
+email String,
+phoneNumber Long
+
+}
+
+entity Company
+{
+companyIdpCode String,
+name String,
+email String,
+phoneNumber Long,
+address String,
+locationAddress String,
+locationGeopoint String
+
+}
+entity Vehicle
+{
+registerNo String,
+vehicleLookupId Long,
+currentLocationGeopoint String,
+occupied Boolean
+
+}
+entity VehicleLookUp
+{
+name String,
+maxWeight Long,
+image Blob,
+length Double,
+width Double,
+height Double
+}
+
+
+entity Freight
+{ 
+type String,
+distance Long,
+pickupAddress String,
+pickupPlaceId String,
+destinationPlaceId String,
+destinationAddress String,
+pickupGeopoint String,
+destinationGeopoint String,
+customerId String,
+requestedStatus RequestStatus,
+acceptedStatus FreightStatus,
+vehicleId String,
+companyId String,
+amount Long,
+createdTime Instant,
+startTime Instant,
+destionationTime Instant
+
+}
+enum FreightStatus
+{
+START,
+COMPLETE,
+NOT_STARTED
+}
+enum RequestStatus
+{
+REQUEST,
+CONFIRM,
+REJECT
+
+
+
+}
+entity Driver
+{
+driverIdpCode String,
+name String,
+email String,
+phoneNumber Long
+}
+relationship ManyToOne{
+Vehicle{driver} to Driver
+}
+relationship OneToMany
+{
+Company{vehicle} to Vehicle{company}
+}
+service all with serviceImpl
+dto all with mapstruct
+paginate all with pagination
