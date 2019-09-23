@@ -29,7 +29,7 @@ public class VehicleLookUp implements Serializable {
     private String name;
 
     @Column(name = "max_weight")
-    private Long maxWeight;
+    private Double maxWeight;
 
     @Lob
     @Column(name = "image")
@@ -69,16 +69,16 @@ public class VehicleLookUp implements Serializable {
         this.name = name;
     }
 
-    public Long getMaxWeight() {
+    public Double getMaxWeight() {
         return maxWeight;
     }
 
-    public VehicleLookUp maxWeight(Long maxWeight) {
+    public VehicleLookUp maxWeight(Double maxWeight) {
         this.maxWeight = maxWeight;
         return this;
     }
 
-    public void setMaxWeight(Long maxWeight) {
+    public void setMaxWeight(Double maxWeight) {
         this.maxWeight = maxWeight;
     }
 

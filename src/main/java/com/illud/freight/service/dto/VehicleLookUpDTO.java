@@ -12,7 +12,7 @@ public class VehicleLookUpDTO implements Serializable {
 
     private String name;
 
-    private Long maxWeight;
+    private Double maxWeight;
 
     @Lob
     private byte[] image;
@@ -41,11 +41,11 @@ public class VehicleLookUpDTO implements Serializable {
         this.name = name;
     }
 
-    public Long getMaxWeight() {
+    public Double getMaxWeight() {
         return maxWeight;
     }
 
-    public void setMaxWeight(Long maxWeight) {
+    public void setMaxWeight(Double maxWeight) {
         this.maxWeight = maxWeight;
     }
 

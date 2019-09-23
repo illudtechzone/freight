@@ -1,14 +1,11 @@
 
 
-
-
 entity Customer
 {
 customerIdpCode String,
 name String,
 email String,
 phoneNumber Long
-
 }
 
 entity Company
@@ -20,20 +17,20 @@ phoneNumber Long,
 address String,
 locationAddress String,
 locationGeopoint String
-
 }
+
 entity Vehicle
 {
 registerNo String,
 vehicleLookupId Long,
 currentLocationGeopoint String,
 occupied Boolean
-
 }
+
 entity VehicleLookUp
 {
 name String,
-maxWeight Long,
+maxWeight Double,
 image Blob,
 length Double,
 width Double,
@@ -51,32 +48,39 @@ destinationPlaceId String,
 destinationAddress String,
 pickupGeopoint String,
 destinationGeopoint String,
-customerId String,
+customerId Long,
 requestedStatus RequestStatus,
 acceptedStatus FreightStatus,
-vehicleId String,
-companyId String,
-amount Long,
+vehicleId Long,
+companyId Long,
+estimatedAmount Double,
+originalAmount Double,
 createdTime Instant,
 startTime Instant,
-destionationTime Instant
+destionationTime Instant,
+deliveryDate LocalDate,
+fragile Boolean,
+weight Double,
+length Double,
+width Double,
+height Double
 
 }
+
 enum FreightStatus
 {
 START,
 COMPLETE,
 NOT_STARTED
 }
+
 enum RequestStatus
 {
 REQUEST,
 CONFIRM,
 REJECT
-
-
-
 }
+
 entity Driver
 {
 driverIdpCode String,
@@ -84,6 +88,15 @@ name String,
 email String,
 phoneNumber Long
 }
+entity Quotation
+{
+freightId Long,
+companyId Long,
+vehicleId Long,
+amount Double,
+deliveryDate LocalDate
+}
+
 relationship ManyToOne{
 Vehicle{driver} to Driver
 }

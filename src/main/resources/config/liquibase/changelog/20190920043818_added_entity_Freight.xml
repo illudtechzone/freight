@@ -54,7 +54,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="customer_id" type="varchar(255)">
+            <column name="customer_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
@@ -66,15 +66,19 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="vehicle_id" type="varchar(255)">
+            <column name="vehicle_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="company_id" type="varchar(255)">
+            <column name="company_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="amount" type="bigint">
+            <column name="estimated_amount" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="original_amount" type="double">
                 <constraints nullable="true" />
             </column>
 
@@ -87,6 +91,30 @@
             </column>
 
             <column name="destionation_time" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="delivery_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="fragile" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="weight" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="length" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="width" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="height" type="double">
                 <constraints nullable="true" />
             </column>
 

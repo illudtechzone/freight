@@ -28,7 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
@@ -77,8 +79,8 @@ public class FreightResourceIntTest {
     private static final String DEFAULT_DESTINATION_GEOPOINT = "AAAAAAAAAA";
     private static final String UPDATED_DESTINATION_GEOPOINT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CUSTOMER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_CUSTOMER_ID = "BBBBBBBBBB";
+    private static final Long DEFAULT_CUSTOMER_ID = 1L;
+    private static final Long UPDATED_CUSTOMER_ID = 2L;
 
     private static final RequestStatus DEFAULT_REQUESTED_STATUS = RequestStatus.REQUEST;
     private static final RequestStatus UPDATED_REQUESTED_STATUS = RequestStatus.CONFIRM;
@@ -86,14 +88,17 @@ public class FreightResourceIntTest {
     private static final FreightStatus DEFAULT_ACCEPTED_STATUS = FreightStatus.START;
     private static final FreightStatus UPDATED_ACCEPTED_STATUS = FreightStatus.COMPLETE;
 
-    private static final String DEFAULT_VEHICLE_ID = "AAAAAAAAAA";
-    private static final String UPDATED_VEHICLE_ID = "BBBBBBBBBB";
+    private static final Long DEFAULT_VEHICLE_ID = 1L;
+    private static final Long UPDATED_VEHICLE_ID = 2L;
 
-    private static final String DEFAULT_COMPANY_ID = "AAAAAAAAAA";
-    private static final String UPDATED_COMPANY_ID = "BBBBBBBBBB";
+    private static final Long DEFAULT_COMPANY_ID = 1L;
+    private static final Long UPDATED_COMPANY_ID = 2L;
 
-    private static final Long DEFAULT_AMOUNT = 1L;
-    private static final Long UPDATED_AMOUNT = 2L;
+    private static final Double DEFAULT_ESTIMATED_AMOUNT = 1D;
+    private static final Double UPDATED_ESTIMATED_AMOUNT = 2D;
+
+    private static final Double DEFAULT_ORIGINAL_AMOUNT = 1D;
+    private static final Double UPDATED_ORIGINAL_AMOUNT = 2D;
 
     private static final Instant DEFAULT_CREATED_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -103,6 +108,24 @@ public class FreightResourceIntTest {
 
     private static final Instant DEFAULT_DESTIONATION_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DESTIONATION_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final LocalDate DEFAULT_DELIVERY_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DELIVERY_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Boolean DEFAULT_FRAGILE = false;
+    private static final Boolean UPDATED_FRAGILE = true;
+
+    private static final Double DEFAULT_WEIGHT = 1D;
+    private static final Double UPDATED_WEIGHT = 2D;
+
+    private static final Double DEFAULT_LENGTH = 1D;
+    private static final Double UPDATED_LENGTH = 2D;
+
+    private static final Double DEFAULT_WIDTH = 1D;
+    private static final Double UPDATED_WIDTH = 2D;
+
+    private static final Double DEFAULT_HEIGHT = 1D;
+    private static final Double UPDATED_HEIGHT = 2D;
 
     @Autowired
     private FreightRepository freightRepository;
@@ -173,10 +196,17 @@ public class FreightResourceIntTest {
             .acceptedStatus(DEFAULT_ACCEPTED_STATUS)
             .vehicleId(DEFAULT_VEHICLE_ID)
             .companyId(DEFAULT_COMPANY_ID)
-            .amount(DEFAULT_AMOUNT)
+            .estimatedAmount(DEFAULT_ESTIMATED_AMOUNT)
+            .originalAmount(DEFAULT_ORIGINAL_AMOUNT)
             .createdTime(DEFAULT_CREATED_TIME)
             .startTime(DEFAULT_START_TIME)
-            .destionationTime(DEFAULT_DESTIONATION_TIME);
+            .destionationTime(DEFAULT_DESTIONATION_TIME)
+            .deliveryDate(DEFAULT_DELIVERY_DATE)
+            .fragile(DEFAULT_FRAGILE)
+            .weight(DEFAULT_WEIGHT)
+            .length(DEFAULT_LENGTH)
+            .width(DEFAULT_WIDTH)
+            .height(DEFAULT_HEIGHT);
         return freight;
     }
 
@@ -214,10 +244,17 @@ public class FreightResourceIntTest {
         assertThat(testFreight.getAcceptedStatus()).isEqualTo(DEFAULT_ACCEPTED_STATUS);
         assertThat(testFreight.getVehicleId()).isEqualTo(DEFAULT_VEHICLE_ID);
         assertThat(testFreight.getCompanyId()).isEqualTo(DEFAULT_COMPANY_ID);
-        assertThat(testFreight.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testFreight.getEstimatedAmount()).isEqualTo(DEFAULT_ESTIMATED_AMOUNT);
+        assertThat(testFreight.getOriginalAmount()).isEqualTo(DEFAULT_ORIGINAL_AMOUNT);
         assertThat(testFreight.getCreatedTime()).isEqualTo(DEFAULT_CREATED_TIME);
         assertThat(testFreight.getStartTime()).isEqualTo(DEFAULT_START_TIME);
         assertThat(testFreight.getDestionationTime()).isEqualTo(DEFAULT_DESTIONATION_TIME);
+        assertThat(testFreight.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
+        assertThat(testFreight.isFragile()).isEqualTo(DEFAULT_FRAGILE);
+        assertThat(testFreight.getWeight()).isEqualTo(DEFAULT_WEIGHT);
+        assertThat(testFreight.getLength()).isEqualTo(DEFAULT_LENGTH);
+        assertThat(testFreight.getWidth()).isEqualTo(DEFAULT_WIDTH);
+        assertThat(testFreight.getHeight()).isEqualTo(DEFAULT_HEIGHT);
 
         // Validate the Freight in Elasticsearch
         verify(mockFreightSearchRepository, times(1)).save(testFreight);
@@ -265,15 +302,22 @@ public class FreightResourceIntTest {
             .andExpect(jsonPath("$.[*].destinationAddress").value(hasItem(DEFAULT_DESTINATION_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].pickupGeopoint").value(hasItem(DEFAULT_PICKUP_GEOPOINT.toString())))
             .andExpect(jsonPath("$.[*].destinationGeopoint").value(hasItem(DEFAULT_DESTINATION_GEOPOINT.toString())))
-            .andExpect(jsonPath("$.[*].customerId").value(hasItem(DEFAULT_CUSTOMER_ID.toString())))
+            .andExpect(jsonPath("$.[*].customerId").value(hasItem(DEFAULT_CUSTOMER_ID.intValue())))
             .andExpect(jsonPath("$.[*].requestedStatus").value(hasItem(DEFAULT_REQUESTED_STATUS.toString())))
             .andExpect(jsonPath("$.[*].acceptedStatus").value(hasItem(DEFAULT_ACCEPTED_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].vehicleId").value(hasItem(DEFAULT_VEHICLE_ID.toString())))
-            .andExpect(jsonPath("$.[*].companyId").value(hasItem(DEFAULT_COMPANY_ID.toString())))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].vehicleId").value(hasItem(DEFAULT_VEHICLE_ID.intValue())))
+            .andExpect(jsonPath("$.[*].companyId").value(hasItem(DEFAULT_COMPANY_ID.intValue())))
+            .andExpect(jsonPath("$.[*].estimatedAmount").value(hasItem(DEFAULT_ESTIMATED_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].originalAmount").value(hasItem(DEFAULT_ORIGINAL_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].createdTime").value(hasItem(DEFAULT_CREATED_TIME.toString())))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
-            .andExpect(jsonPath("$.[*].destionationTime").value(hasItem(DEFAULT_DESTIONATION_TIME.toString())));
+            .andExpect(jsonPath("$.[*].destionationTime").value(hasItem(DEFAULT_DESTIONATION_TIME.toString())))
+            .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].fragile").value(hasItem(DEFAULT_FRAGILE.booleanValue())))
+            .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())))
+            .andExpect(jsonPath("$.[*].length").value(hasItem(DEFAULT_LENGTH.doubleValue())))
+            .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH.doubleValue())))
+            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())));
     }
     
     @Test
@@ -295,15 +339,22 @@ public class FreightResourceIntTest {
             .andExpect(jsonPath("$.destinationAddress").value(DEFAULT_DESTINATION_ADDRESS.toString()))
             .andExpect(jsonPath("$.pickupGeopoint").value(DEFAULT_PICKUP_GEOPOINT.toString()))
             .andExpect(jsonPath("$.destinationGeopoint").value(DEFAULT_DESTINATION_GEOPOINT.toString()))
-            .andExpect(jsonPath("$.customerId").value(DEFAULT_CUSTOMER_ID.toString()))
+            .andExpect(jsonPath("$.customerId").value(DEFAULT_CUSTOMER_ID.intValue()))
             .andExpect(jsonPath("$.requestedStatus").value(DEFAULT_REQUESTED_STATUS.toString()))
             .andExpect(jsonPath("$.acceptedStatus").value(DEFAULT_ACCEPTED_STATUS.toString()))
-            .andExpect(jsonPath("$.vehicleId").value(DEFAULT_VEHICLE_ID.toString()))
-            .andExpect(jsonPath("$.companyId").value(DEFAULT_COMPANY_ID.toString()))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.vehicleId").value(DEFAULT_VEHICLE_ID.intValue()))
+            .andExpect(jsonPath("$.companyId").value(DEFAULT_COMPANY_ID.intValue()))
+            .andExpect(jsonPath("$.estimatedAmount").value(DEFAULT_ESTIMATED_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.originalAmount").value(DEFAULT_ORIGINAL_AMOUNT.doubleValue()))
             .andExpect(jsonPath("$.createdTime").value(DEFAULT_CREATED_TIME.toString()))
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.toString()))
-            .andExpect(jsonPath("$.destionationTime").value(DEFAULT_DESTIONATION_TIME.toString()));
+            .andExpect(jsonPath("$.destionationTime").value(DEFAULT_DESTIONATION_TIME.toString()))
+            .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
+            .andExpect(jsonPath("$.fragile").value(DEFAULT_FRAGILE.booleanValue()))
+            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.doubleValue()))
+            .andExpect(jsonPath("$.length").value(DEFAULT_LENGTH.doubleValue()))
+            .andExpect(jsonPath("$.width").value(DEFAULT_WIDTH.doubleValue()))
+            .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT.doubleValue()));
     }
 
     @Test
@@ -340,10 +391,17 @@ public class FreightResourceIntTest {
             .acceptedStatus(UPDATED_ACCEPTED_STATUS)
             .vehicleId(UPDATED_VEHICLE_ID)
             .companyId(UPDATED_COMPANY_ID)
-            .amount(UPDATED_AMOUNT)
+            .estimatedAmount(UPDATED_ESTIMATED_AMOUNT)
+            .originalAmount(UPDATED_ORIGINAL_AMOUNT)
             .createdTime(UPDATED_CREATED_TIME)
             .startTime(UPDATED_START_TIME)
-            .destionationTime(UPDATED_DESTIONATION_TIME);
+            .destionationTime(UPDATED_DESTIONATION_TIME)
+            .deliveryDate(UPDATED_DELIVERY_DATE)
+            .fragile(UPDATED_FRAGILE)
+            .weight(UPDATED_WEIGHT)
+            .length(UPDATED_LENGTH)
+            .width(UPDATED_WIDTH)
+            .height(UPDATED_HEIGHT);
         FreightDTO freightDTO = freightMapper.toDto(updatedFreight);
 
         restFreightMockMvc.perform(put("/api/freights")
@@ -368,10 +426,17 @@ public class FreightResourceIntTest {
         assertThat(testFreight.getAcceptedStatus()).isEqualTo(UPDATED_ACCEPTED_STATUS);
         assertThat(testFreight.getVehicleId()).isEqualTo(UPDATED_VEHICLE_ID);
         assertThat(testFreight.getCompanyId()).isEqualTo(UPDATED_COMPANY_ID);
-        assertThat(testFreight.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testFreight.getEstimatedAmount()).isEqualTo(UPDATED_ESTIMATED_AMOUNT);
+        assertThat(testFreight.getOriginalAmount()).isEqualTo(UPDATED_ORIGINAL_AMOUNT);
         assertThat(testFreight.getCreatedTime()).isEqualTo(UPDATED_CREATED_TIME);
         assertThat(testFreight.getStartTime()).isEqualTo(UPDATED_START_TIME);
         assertThat(testFreight.getDestionationTime()).isEqualTo(UPDATED_DESTIONATION_TIME);
+        assertThat(testFreight.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);
+        assertThat(testFreight.isFragile()).isEqualTo(UPDATED_FRAGILE);
+        assertThat(testFreight.getWeight()).isEqualTo(UPDATED_WEIGHT);
+        assertThat(testFreight.getLength()).isEqualTo(UPDATED_LENGTH);
+        assertThat(testFreight.getWidth()).isEqualTo(UPDATED_WIDTH);
+        assertThat(testFreight.getHeight()).isEqualTo(UPDATED_HEIGHT);
 
         // Validate the Freight in Elasticsearch
         verify(mockFreightSearchRepository, times(1)).save(testFreight);
@@ -440,15 +505,22 @@ public class FreightResourceIntTest {
             .andExpect(jsonPath("$.[*].destinationAddress").value(hasItem(DEFAULT_DESTINATION_ADDRESS)))
             .andExpect(jsonPath("$.[*].pickupGeopoint").value(hasItem(DEFAULT_PICKUP_GEOPOINT)))
             .andExpect(jsonPath("$.[*].destinationGeopoint").value(hasItem(DEFAULT_DESTINATION_GEOPOINT)))
-            .andExpect(jsonPath("$.[*].customerId").value(hasItem(DEFAULT_CUSTOMER_ID)))
+            .andExpect(jsonPath("$.[*].customerId").value(hasItem(DEFAULT_CUSTOMER_ID.intValue())))
             .andExpect(jsonPath("$.[*].requestedStatus").value(hasItem(DEFAULT_REQUESTED_STATUS.toString())))
             .andExpect(jsonPath("$.[*].acceptedStatus").value(hasItem(DEFAULT_ACCEPTED_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].vehicleId").value(hasItem(DEFAULT_VEHICLE_ID)))
-            .andExpect(jsonPath("$.[*].companyId").value(hasItem(DEFAULT_COMPANY_ID)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].vehicleId").value(hasItem(DEFAULT_VEHICLE_ID.intValue())))
+            .andExpect(jsonPath("$.[*].companyId").value(hasItem(DEFAULT_COMPANY_ID.intValue())))
+            .andExpect(jsonPath("$.[*].estimatedAmount").value(hasItem(DEFAULT_ESTIMATED_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].originalAmount").value(hasItem(DEFAULT_ORIGINAL_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].createdTime").value(hasItem(DEFAULT_CREATED_TIME.toString())))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
-            .andExpect(jsonPath("$.[*].destionationTime").value(hasItem(DEFAULT_DESTIONATION_TIME.toString())));
+            .andExpect(jsonPath("$.[*].destionationTime").value(hasItem(DEFAULT_DESTIONATION_TIME.toString())))
+            .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].fragile").value(hasItem(DEFAULT_FRAGILE.booleanValue())))
+            .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())))
+            .andExpect(jsonPath("$.[*].length").value(hasItem(DEFAULT_LENGTH.doubleValue())))
+            .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH.doubleValue())))
+            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())));
     }
 
     @Test

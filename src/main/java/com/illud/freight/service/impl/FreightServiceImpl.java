@@ -52,14 +52,6 @@ public class FreightServiceImpl implements FreightService {
         freight = freightRepository.save(freight);
         FreightDTO result = freightMapper.toDto(freight);
         freightSearchRepository.save(freight);
-        return update(result);
-    }
-    public FreightDTO update(FreightDTO freightDTO) {
-        log.debug("Request to save Freight : {}", freightDTO);
-        Freight freight = freightMapper.toEntity(freightDTO);
-        freight = freightRepository.save(freight);
-        FreightDTO result = freightMapper.toDto(freight);
-        freightSearchRepository.save(freight);
         return result;
     }
 
