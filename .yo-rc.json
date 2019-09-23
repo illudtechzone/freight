@@ -36,5 +36,16 @@
     ],
     "skipClient": true,
     "skipUserManagement": true
+  },
+  "generator-jhipster-swagger-cli": {
+    "promptValues": {
+      "inputSpec": "/home/karthi/apache-tomcat-9.0.21/webapps/activiti-rest/docs/activiti.json",
+      "cliName": "activitiRestApi"
+    },
+    "apis": {
+      "activitiRestApi": {
+        "spec": "/home/karthi/apache-tomcat-9.0.21/webapps/activiti-rest/docs/activiti.json"
+      }
+    }
   }
 }
