@@ -52,9 +52,22 @@ public class CompanyServiceImpl implements CompanyService {
         company = companyRepository.save(company);
         CompanyDTO result = companyMapper.toDto(company);
         companySearchRepository.save(company);
-        return result;
+        return update(result);
     }
 
+    public CompanyDTO update(CompanyDTO companyDTO) {
+        log.debug("Request to update Company : {}", companyDTO);
+        Company company = companyMapper.toEntity(companyDTO);
+        company = companyRepository.save(company);
+        CompanyDTO result = companyMapper.toDto(company);
+        companySearchRepository.save(company);
+        return result;
+    }
+    
+    
+    
+    
+    
     /**
      * Get all the companies.
      *

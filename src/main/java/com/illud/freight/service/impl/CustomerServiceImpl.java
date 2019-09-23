@@ -1,9 +1,11 @@
 package com.illud.freight.service.impl;
 
 import com.illud.freight.service.CustomerService;
+import com.illud.freight.domain.Company;
 import com.illud.freight.domain.Customer;
 import com.illud.freight.repository.CustomerRepository;
 import com.illud.freight.repository.search.CustomerSearchRepository;
+import com.illud.freight.service.dto.CompanyDTO;
 import com.illud.freight.service.dto.CustomerDTO;
 import com.illud.freight.service.mapper.CustomerMapper;
 import org.slf4j.Logger;
@@ -52,9 +54,16 @@ public class CustomerServiceImpl implements CustomerService {
         customer = customerRepository.save(customer);
         CustomerDTO result = customerMapper.toDto(customer);
         customerSearchRepository.save(customer);
+        return update(result);
+    }
+    public CustomerDTO update(CustomerDTO customerDTO) {
+        log.debug("Request to update Customer : {}", customerDTO);
+        Customer customer = customerMapper.toEntity(customerDTO);
+        customer = customerRepository.save(customer);
+        CustomerDTO result = customerMapper.toDto(customer);
+        customerSearchRepository.save(customer);
         return result;
     }
-
     /**
      * Get all the customers.
      *

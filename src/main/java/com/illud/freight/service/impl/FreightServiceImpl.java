@@ -83,16 +83,15 @@ public class FreightServiceImpl implements FreightService {
         freight = freightRepository.save(freight);
         FreightDTO result = freightMapper.toDto(freight);
         freightSearchRepository.save(freight);
+
         
         DefaultInfo freightInfo = new DefaultInfo();
         freightInfo.setSource(freightDTO.getPickupPlaceId());
         freightInfo.setDestination(freightDTO.getDestinationPlaceId());
         freightInfo.setBuget(freightDTO.getAmount());
         freightInfo.setCustomerId(freightDTO.getCustomerId());
-        
-      
-        
         initiate(freightInfo);
+
         return result;
     }
 
