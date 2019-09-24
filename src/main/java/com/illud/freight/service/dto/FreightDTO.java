@@ -1,5 +1,6 @@
 package com.illud.freight.service.dto;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Objects;
 import com.illud.freight.domain.enumeration.RequestStatus;
@@ -28,23 +29,37 @@ public class FreightDTO implements Serializable {
 
     private String destinationGeopoint;
 
-    private String customerId;
+    private Long customerId;
 
     private RequestStatus requestedStatus;
 
     private FreightStatus acceptedStatus;
 
-    private String vehicleId;
+    private Long vehicleId;
 
-    private String companyId;
+    private Long companyId;
 
-    private Long amount;
+    private Double estimatedAmount;
+
+    private Double originalAmount;
 
     private Instant createdTime;
 
     private Instant startTime;
 
     private Instant destionationTime;
+
+    private LocalDate deliveryDate;
+
+    private Boolean fragile;
+
+    private Double weight;
+
+    private Double length;
+
+    private Double width;
+
+    private Double height;
 
 
     public Long getId() {
@@ -119,11 +134,11 @@ public class FreightDTO implements Serializable {
         this.destinationGeopoint = destinationGeopoint;
     }
 
-    public String getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -143,28 +158,36 @@ public class FreightDTO implements Serializable {
         this.acceptedStatus = acceptedStatus;
     }
 
-    public String getVehicleId() {
+    public Long getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(String vehicleId) {
+    public void setVehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public String getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Double getEstimatedAmount() {
+        return estimatedAmount;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setEstimatedAmount(Double estimatedAmount) {
+        this.estimatedAmount = estimatedAmount;
+    }
+
+    public Double getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Double originalAmount) {
+        this.originalAmount = originalAmount;
     }
 
     public Instant getCreatedTime() {
@@ -189,6 +212,54 @@ public class FreightDTO implements Serializable {
 
     public void setDestionationTime(Instant destionationTime) {
         this.destionationTime = destionationTime;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public Boolean isFragile() {
+        return fragile;
+    }
+
+    public void setFragile(Boolean fragile) {
+        this.fragile = fragile;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getLength() {
+        return length;
+    }
+
+    public void setLength(Double length) {
+        this.length = length;
+    }
+
+    public Double getWidth() {
+        return width;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
     }
 
     @Override
@@ -224,15 +295,22 @@ public class FreightDTO implements Serializable {
             ", destinationAddress='" + getDestinationAddress() + "'" +
             ", pickupGeopoint='" + getPickupGeopoint() + "'" +
             ", destinationGeopoint='" + getDestinationGeopoint() + "'" +
-            ", customerId='" + getCustomerId() + "'" +
+            ", customerId=" + getCustomerId() +
             ", requestedStatus='" + getRequestedStatus() + "'" +
             ", acceptedStatus='" + getAcceptedStatus() + "'" +
-            ", vehicleId='" + getVehicleId() + "'" +
-            ", companyId='" + getCompanyId() + "'" +
-            ", amount=" + getAmount() +
+            ", vehicleId=" + getVehicleId() +
+            ", companyId=" + getCompanyId() +
+            ", estimatedAmount=" + getEstimatedAmount() +
+            ", originalAmount=" + getOriginalAmount() +
             ", createdTime='" + getCreatedTime() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", destionationTime='" + getDestionationTime() + "'" +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", fragile='" + isFragile() + "'" +
+            ", weight=" + getWeight() +
+            ", length=" + getLength() +
+            ", width=" + getWidth() +
+            ", height=" + getHeight() +
             "}";
     }
 }

@@ -139,6 +139,7 @@ public class FreightResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/freights");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+  
 
     @GetMapping("/getPendingFreights")
     public List<FreightDTO> getPendingFreights(@RequestParam(value = "name", required = false) String name,

@@ -7,7 +7,7 @@
         },
         {
             "fieldName": "maxWeight",
-            "fieldType": "Long"
+            "fieldType": "Double"
         },
         {
             "fieldName": "image",

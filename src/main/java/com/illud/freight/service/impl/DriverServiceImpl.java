@@ -118,4 +118,16 @@ public class DriverServiceImpl implements DriverService {
         return driverSearchRepository.search(queryStringQuery(query), pageable)
             .map(driverMapper::toDto);
     }
+
+	@Override
+	public Optional<DriverDTO> createdriverIfnotExist(DriverDTO driverDTO) {
+		log.debug("<<<<<<<<< create driver if not exist>>>>>>>>",driverDTO);
+		Optional<Driver> driver = driverRepository.findByDriverIdpCode(driverDTO.getDriverIdpCode());
+		if(driver.isPresent()) {
+			return driver.map(driverMapper::toDto);
+		}
+		else {
+			return Optional.of(save(driverDTO));
+		}
+	}
 }

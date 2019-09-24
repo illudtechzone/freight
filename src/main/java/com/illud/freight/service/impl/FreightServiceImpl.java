@@ -87,13 +87,15 @@ public class FreightServiceImpl implements FreightService {
         FreightDTO result = freightMapper.toDto(freight);
         freightSearchRepository.save(freight);
 
+
         
         DefaultInfo freightInfo = new DefaultInfo();
         freightInfo.setSource(freightDTO.getPickupPlaceId());
         freightInfo.setDestination(freightDTO.getDestinationPlaceId());
-        freightInfo.setBuget(freightDTO.getAmount());
+        freightInfo.setBuget(freightDTO.getEstimatedAmount());
         freightInfo.setCustomerId(freightDTO.getCustomerId());
         initiate(freightInfo);
+
 
         return result;
     }
@@ -181,7 +183,8 @@ public class FreightServiceImpl implements FreightService {
    		bugetFormProperty.setName("buget");
    		bugetFormProperty.setType("String");
    		bugetFormProperty.setReadable(true);
-   		bugetFormProperty.setValue(Long.toString(freightInfo.getBuget()));
+   		String budget = ""+freightInfo.getBuget();
+   		bugetFormProperty.setValue(budget);
    		formProperties.add(bugetFormProperty);
    		
    		RestFormProperty customerIdFormProperty = new RestFormProperty();
@@ -189,7 +192,8 @@ public class FreightServiceImpl implements FreightService {
    		customerIdFormProperty.setName("customerId");
    		customerIdFormProperty.setType("String");
    		customerIdFormProperty.setReadable(true);
-   		customerIdFormProperty.setValue(freightInfo.getCustomerId());
+   		String customerId = ""+freightInfo.getCustomerId();
+   		customerIdFormProperty.setValue(customerId);
    		formProperties.add(customerIdFormProperty);
 		
    		submitFormRequest.setProperties(formProperties);
@@ -236,7 +240,7 @@ public class FreightServiceImpl implements FreightService {
 			log.info("*****************************////////////////////////////////////**********"+taskId);
 			openTask.setPickupPlaceId(getBookingDetails(taskProcessInstanceId).getPickupPlaceId());
 			openTask.setDestinationPlaceId(getBookingDetails(taskProcessInstanceId).getDestinationPlaceId());
-			openTask.setAmount(getBookingDetails(taskProcessInstanceId).getAmount());
+			openTask.setEstimatedAmount(getBookingDetails(taskProcessInstanceId).getEstimatedAmount());
 			//openTask.setCustomerId(getBookingDetails(taskProcessInstanceId).getCustomerId());
 			freights.add(openTask);
 		});
@@ -285,14 +289,14 @@ public FreightDTO getBookingDetails(String processInstanceId) {
 			else if (propertyId.equals("customerId")) {
 				customerId = requestMap.get("propertyValue");
 				log.info("++++++++++++++++++++++++++****"+customerId);
-				defaultInfoRequest.setCustomerId(customerId);
+				defaultInfoRequest.setCustomerId(Long.parseLong(customerId));
 			
 			
 				}
 			else if (propertyId.equals("buget")) {
 				budget = requestMap.get("propertyValue");
 				log.info("++++++++++++++++++++++++++***"+budget);
-				defaultInfoRequest.setAmount(Long.parseLong(budget));
+				defaultInfoRequest.setEstimatedAmount(Double.parseDouble(budget));
 				}
 		}
 		

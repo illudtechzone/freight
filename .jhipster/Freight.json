@@ -35,7 +35,7 @@
         },
         {
             "fieldName": "customerId",
-            "fieldType": "String"
+            "fieldType": "Long"
         },
         {
             "fieldName": "requestedStatus",
@@ -49,15 +49,19 @@
         },
         {
             "fieldName": "vehicleId",
-            "fieldType": "String"
+            "fieldType": "Long"
         },
         {
             "fieldName": "companyId",
-            "fieldType": "String"
+            "fieldType": "Long"
         },
         {
-            "fieldName": "amount",
-            "fieldType": "Long"
+            "fieldName": "estimatedAmount",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "originalAmount",
+            "fieldType": "Double"
         },
         {
             "fieldName": "createdTime",
@@ -70,6 +74,30 @@
         {
             "fieldName": "destionationTime",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "deliveryDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "fragile",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "weight",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "length",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "width",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "height",
+            "fieldType": "Double"
         }
     ],
     "relationships": [],

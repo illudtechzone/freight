@@ -135,5 +135,12 @@ public class DriverResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/drivers");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    @PostMapping("/create/driver")
+    public ResponseEntity<DriverDTO> createdriverIfnotExist(@RequestBody DriverDTO driverDTO){
+    	log.debug("<<<<<<<<< create driver if not exist>>>>>>>",driverDTO);
+    	Optional<DriverDTO> result =driverService.createdriverIfnotExist(driverDTO);
+		return ResponseUtil.wrapOrNotFound(result);
+    	
+    }
 
 }

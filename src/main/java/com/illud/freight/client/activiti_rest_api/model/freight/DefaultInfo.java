@@ -4,8 +4,8 @@ public class DefaultInfo {
 
 	String source;
     String destination;
-    Long buget;
-    String customerId;
+    Double buget;
+    Long customerId;
     
     
 	public String getSource() {
@@ -20,16 +20,16 @@ public class DefaultInfo {
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
-	public Long getBuget() {
+	public Double getBuget() {
 		return buget;
 	}
-	public void setBuget(Long buget) {
+	public void setBuget(Double buget) {
 		this.buget = buget;
 	}
-	public String getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
-	public void setCustomerId(String customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
     

@@ -135,5 +135,12 @@ public class CustomerResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/customers");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    @PostMapping("/create/customers")
+    public ResponseEntity<CustomerDTO> createcustomerIfnotExist(@RequestBody CustomerDTO customerDTO){
+    	log.debug("<<<<<<<create customer if not exist>>>>>>>", customerDTO);
+    	Optional<CustomerDTO> result = customerService.createcustomerIfnotExist(customerDTO);
+		return ResponseUtil.wrapOrNotFound(result);
+    	
+    }
 
 }

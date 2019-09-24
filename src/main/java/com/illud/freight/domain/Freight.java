@@ -9,6 +9,7 @@ import javax.persistence.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import com.illud.freight.domain.enumeration.RequestStatus;
@@ -55,7 +56,7 @@ public class Freight implements Serializable {
     private String destinationGeopoint;
 
     @Column(name = "customer_id")
-    private String customerId;
+    private Long customerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "requested_status")
@@ -66,13 +67,16 @@ public class Freight implements Serializable {
     private FreightStatus acceptedStatus;
 
     @Column(name = "vehicle_id")
-    private String vehicleId;
+    private Long vehicleId;
 
     @Column(name = "company_id")
-    private String companyId;
+    private Long companyId;
 
-    @Column(name = "amount")
-    private Long amount;
+    @Column(name = "estimated_amount")
+    private Double estimatedAmount;
+
+    @Column(name = "original_amount")
+    private Double originalAmount;
 
     @Column(name = "created_time")
     private Instant createdTime;
@@ -82,6 +86,24 @@ public class Freight implements Serializable {
 
     @Column(name = "destionation_time")
     private Instant destionationTime;
+
+    @Column(name = "delivery_date")
+    private LocalDate deliveryDate;
+
+    @Column(name = "fragile")
+    private Boolean fragile;
+
+    @Column(name = "weight")
+    private Double weight;
+
+    @Column(name = "length")
+    private Double length;
+
+    @Column(name = "width")
+    private Double width;
+
+    @Column(name = "height")
+    private Double height;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -196,16 +218,16 @@ public class Freight implements Serializable {
         this.destinationGeopoint = destinationGeopoint;
     }
 
-    public String getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public Freight customerId(String customerId) {
+    public Freight customerId(Long customerId) {
         this.customerId = customerId;
         return this;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -235,43 +257,56 @@ public class Freight implements Serializable {
         this.acceptedStatus = acceptedStatus;
     }
 
-    public String getVehicleId() {
+    public Long getVehicleId() {
         return vehicleId;
     }
 
-    public Freight vehicleId(String vehicleId) {
+    public Freight vehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
         return this;
     }
 
-    public void setVehicleId(String vehicleId) {
+    public void setVehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public String getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public Freight companyId(String companyId) {
+    public Freight companyId(Long companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Double getEstimatedAmount() {
+        return estimatedAmount;
     }
 
-    public Freight amount(Long amount) {
-        this.amount = amount;
+    public Freight estimatedAmount(Double estimatedAmount) {
+        this.estimatedAmount = estimatedAmount;
         return this;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setEstimatedAmount(Double estimatedAmount) {
+        this.estimatedAmount = estimatedAmount;
+    }
+
+    public Double getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public Freight originalAmount(Double originalAmount) {
+        this.originalAmount = originalAmount;
+        return this;
+    }
+
+    public void setOriginalAmount(Double originalAmount) {
+        this.originalAmount = originalAmount;
     }
 
     public Instant getCreatedTime() {
@@ -312,6 +347,84 @@ public class Freight implements Serializable {
     public void setDestionationTime(Instant destionationTime) {
         this.destionationTime = destionationTime;
     }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public Freight deliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+        return this;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public Boolean isFragile() {
+        return fragile;
+    }
+
+    public Freight fragile(Boolean fragile) {
+        this.fragile = fragile;
+        return this;
+    }
+
+    public void setFragile(Boolean fragile) {
+        this.fragile = fragile;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public Freight weight(Double weight) {
+        this.weight = weight;
+        return this;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getLength() {
+        return length;
+    }
+
+    public Freight length(Double length) {
+        this.length = length;
+        return this;
+    }
+
+    public void setLength(Double length) {
+        this.length = length;
+    }
+
+    public Double getWidth() {
+        return width;
+    }
+
+    public Freight width(Double width) {
+        this.width = width;
+        return this;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+
+    public Freight height(Double height) {
+        this.height = height;
+        return this;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -346,15 +459,22 @@ public class Freight implements Serializable {
             ", destinationAddress='" + getDestinationAddress() + "'" +
             ", pickupGeopoint='" + getPickupGeopoint() + "'" +
             ", destinationGeopoint='" + getDestinationGeopoint() + "'" +
-            ", customerId='" + getCustomerId() + "'" +
+            ", customerId=" + getCustomerId() +
             ", requestedStatus='" + getRequestedStatus() + "'" +
             ", acceptedStatus='" + getAcceptedStatus() + "'" +
-            ", vehicleId='" + getVehicleId() + "'" +
-            ", companyId='" + getCompanyId() + "'" +
-            ", amount=" + getAmount() +
+            ", vehicleId=" + getVehicleId() +
+            ", companyId=" + getCompanyId() +
+            ", estimatedAmount=" + getEstimatedAmount() +
+            ", originalAmount=" + getOriginalAmount() +
             ", createdTime='" + getCreatedTime() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", destionationTime='" + getDestionationTime() + "'" +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", fragile='" + isFragile() + "'" +
+            ", weight=" + getWeight() +
+            ", length=" + getLength() +
+            ", width=" + getWidth() +
+            ", height=" + getHeight() +
             "}";
     }
 }
