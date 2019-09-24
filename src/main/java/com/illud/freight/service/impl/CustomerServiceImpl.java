@@ -119,4 +119,16 @@ public class CustomerServiceImpl implements CustomerService {
         return customerSearchRepository.search(queryStringQuery(query), pageable)
             .map(customerMapper::toDto);
     }
+
+	@Override
+	public Optional<CustomerDTO> createcustomerIfnotExist(CustomerDTO customerDTO) {
+		log.debug("<<<<<<< create if not exist>>>>>>",customerDTO);
+		Optional<Customer> customer = customerRepository.findByCustomerIdpCode(customerDTO.getCustomerIdpCode());
+		if(customer.isPresent()) {
+			return customer.map(customerMapper::toDto);
+		}
+		else {
+			return Optional.of(save(customerDTO));
+		}
+	}
 }

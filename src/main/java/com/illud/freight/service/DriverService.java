@@ -53,4 +53,6 @@ public interface DriverService {
      * @return the list of entities
      */
     Page<DriverDTO> search(String query, Pageable pageable);
+
+	Optional<DriverDTO> createdriverIfnotExist(DriverDTO driverDTO);
 }

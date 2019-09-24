@@ -123,4 +123,17 @@ public class CompanyServiceImpl implements CompanyService {
         return companySearchRepository.search(queryStringQuery(query), pageable)
             .map(companyMapper::toDto);
     }
+
+	@Override
+	public Optional<CompanyDTO> createcompanyIfnotExist(CompanyDTO companyDTO) {
+		log.debug("<<<<<<<<< createcompany if not exists>>>>>>>>>",companyDTO);
+		Optional<Company> company=companyRepository.findByCompanyIdpCode(companyDTO.getCompanyIdpCode());
+		if(company.isPresent()) {
+			return company.map(companyMapper::toDto);
+		}
+		else {
+			return Optional.of(save(companyDTO));
+		}
+		
+	}
 }
