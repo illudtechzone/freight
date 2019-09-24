@@ -3,6 +3,7 @@ package com.illud.freight.service.impl;
 import com.illud.freight.service.FreightService;
 
 import com.illud.freight.client.activiti_rest_api.api.FormsApi;
+import com.illud.freight.client.activiti_rest_api.api.HistoryApi;
 import com.illud.freight.client.activiti_rest_api.api.ProcessInstancesApi;
 import com.illud.freight.client.activiti_rest_api.api.TasksApi;
 import com.illud.freight.client.activiti_rest_api.model.DataResponse;
@@ -17,7 +18,6 @@ import com.illud.freight.repository.FreightRepository;
 import com.illud.freight.repository.search.FreightSearchRepository;
 import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.mapper.FreightMapper;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +59,9 @@ public class FreightServiceImpl implements FreightService {
 	
 	@Autowired
 	private ProcessInstancesApi processInstancesApi;
+	
+	@Autowired
+	private HistoryApi historyApi;
 
     
     @Autowired
@@ -119,12 +122,10 @@ public class FreightServiceImpl implements FreightService {
    		variables.add(driverRestVariable);
    	
    	  
-   	        
-   	       
-   		
    		log.info("*****************************************************"+variables.size());
    		processInstanceCreateRequest.setVariables(variables);
    		log.info("*****************************************************"+processInstanceCreateRequest.getVariables());
+   	       
    		
    		ResponseEntity<ProcessInstanceResponse> processInstanceResponse = processInstanceApi
 				.createProcessInstance(processInstanceCreateRequest);
@@ -133,19 +134,19 @@ public class FreightServiceImpl implements FreightService {
 		log.info("++++++++++++++++processDefinitionId++++++++++++++++++"+ processDefinitionId);
 		log.info("++++++++++++++++ProcessInstanceId is+++++++++++++ " + processInstanceId);
 		
-		 ResponseEntity<DataResponse> taskResponse = tasksApi.getTasks(null, null, null, null, null,
-					null, null, null, null, null, null, null, null, null, null, null, null, null, processInstanceId, null,
-					null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-					null, null, null, null, null, null, "0", null, "desc", "30");
-		 
-		 @SuppressWarnings("unchecked")
-			String taskId = ((List<LinkedHashMap<String, String>>) taskResponse.getBody().getData()).get(0)
-					.get("id");
-			log.info("Initiate task is " + taskId);
-			collectInfo(taskId, freightInfo);
-		
    		processInstanceApi.createProcessInstance(processInstanceCreateRequest);
    		
+   	 ResponseEntity<DataResponse> taskResponse = tasksApi.getTasks(null, null, null, null, null,
+				null, null, null, null, null, null, null, null, null, null, null, null, null, processInstanceId, null,
+				null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+				null, null, null, null, null, null, "0", null, "desc", "30");
+	 
+	// @SuppressWarnings("unchecked")
+		String taskId = ((List<LinkedHashMap<String, String>>) taskResponse.getBody().getData()).get(0)
+				.get("id");
+		log.info("Initiate task is************************************** " + taskId);
+		
+		collectInfo(taskId, freightInfo);
 		
 		return processInstanceId;
 	}
@@ -182,12 +183,131 @@ public class FreightServiceImpl implements FreightService {
    		bugetFormProperty.setReadable(true);
    		bugetFormProperty.setValue(Long.toString(freightInfo.getBuget()));
    		formProperties.add(bugetFormProperty);
+   		
+   		RestFormProperty customerIdFormProperty = new RestFormProperty();
+   		customerIdFormProperty.setId("customerId");
+   		customerIdFormProperty.setName("customerId");
+   		customerIdFormProperty.setType("String");
+   		customerIdFormProperty.setReadable(true);
+   		customerIdFormProperty.setValue(freightInfo.getCustomerId());
+   		formProperties.add(customerIdFormProperty);
 		
    		submitFormRequest.setProperties(formProperties);
    		formsApi.submitForm(submitFormRequest);
 		
 	}
 	
+	/**
+     * Get all the open freights through activiti.
+     */
+	@Override
+	public List<FreightDTO>getPendingFreights( String name,
+			 String nameLike,
+			 String assignee,
+			 String assigneeLike,
+			 String candidateUser,
+			 String candidateGroup,
+			 String candidateGroups,
+			 String processInstanceId,
+			 String processDefinitionId,
+			 String processDefinitionKey,
+			 String createdOn,
+			String createdBefore,
+			 String createdAfter/*Pageable pageable*/) {
+
+		
+		ResponseEntity<DataResponse> response = tasksApi.getTasks(name, nameLike, null, null, null, null, assignee,
+				assigneeLike, null, null, null, null, candidateUser, candidateGroup, candidateGroups, null, null, null,
+				processInstanceId, null, null, "freight:1:40056", null, null, null, null, null, createdOn, createdBefore, createdAfter, null,
+				null, null, null, null, null, null, null, null, null, null, null, null, /*pageable.getPageNumber()+""*/"0",null, "desc",/* pageable.getPageSize()+""*/"1500");
+		List<LinkedHashMap<String, String>> myTasks = (List<LinkedHashMap<String, String>>) response.getBody()
+				.getData();
+		
+		log.info("*****************************////////////////////////////////////freight size**********"+myTasks.size());
+		List<FreightDTO> freights = new ArrayList<FreightDTO>();
+		
+		myTasks.forEach(task -> {
+			FreightDTO openTask = new FreightDTO();
+			String taskProcessInstanceId = task.get("processInstanceId");
+			//log.info("***************************************************Process Instance id to delete  is  "+taskProcessInstanceId);
+			String taskName = task.get("name");
+			String taskId = task.get("id");
+			log.info("*****************************////////////////////////////////////**********"+taskName);
+			log.info("*****************************////////////////////////////////////**********"+taskId);
+			openTask.setPickupPlaceId(getBookingDetails(taskProcessInstanceId).getPickupPlaceId());
+			openTask.setDestinationPlaceId(getBookingDetails(taskProcessInstanceId).getDestinationPlaceId());
+			openTask.setAmount(getBookingDetails(taskProcessInstanceId).getAmount());
+			//openTask.setCustomerId(getBookingDetails(taskProcessInstanceId).getCustomerId());
+			freights.add(openTask);
+		});
+		return freights;
+		}
+	
+	
+@Override	
+public FreightDTO getBookingDetails(String processInstanceId) {
+		
+	FreightDTO defaultInfoRequest = new FreightDTO();
+		List<LinkedHashMap<String, String>> taskResponseCollectInfo = (List<LinkedHashMap<String, String>>) getHistoricTaskusingProcessInstanceIdAndName(
+				processInstanceId, "collect details").getBody().getData();
+		String taskId = taskResponseCollectInfo.get(0).get("id");
+		log.info("Collect Informations TaskID is ********************"+taskId);
+		log.info("///////////////////////////////////********************"+taskResponseCollectInfo.size());
+		
+		ResponseEntity<DataResponse> requestDetails = historyApi.getHistoricDetailInfo(null, processInstanceId, null, null,
+				taskId.toString(), true, false);
+		
+		List<LinkedHashMap<String, String>> requestFormProperties = (List<LinkedHashMap<String, String>>) requestDetails
+				.getBody().getData();
+		
+		log.info("Number of items in the collection ********************************************"+requestFormProperties.size());
+		log.info("Task Id of the item is "+taskId);
+		
+		for (LinkedHashMap<String, String> requestMap : requestFormProperties) {
+			String source = null;
+			String destination = null;
+			String budget = null;
+			String customerId = null;
+			
+			String propertyId = requestMap.get("propertyId");
+			
+			log.info("++++++++++++++++++++++++++"+propertyId);
+			if (propertyId.equals("source")) {
+				source = requestMap.get("propertyValue");
+				log.info("+++++++++++++++++++++++++*"+source);
+				defaultInfoRequest.setPickupPlaceId(source);
+			}
+			else if (propertyId.equals("destination")) {
+				destination = requestMap.get("propertyValue");
+				log.info("++++++++++++++++++++++++++**"+destination);
+				defaultInfoRequest.setDestinationPlaceId(destination);
+			}
+			else if (propertyId.equals("customerId")) {
+				customerId = requestMap.get("propertyValue");
+				log.info("++++++++++++++++++++++++++****"+customerId);
+				defaultInfoRequest.setCustomerId(customerId);
+			
+			
+				}
+			else if (propertyId.equals("buget")) {
+				budget = requestMap.get("propertyValue");
+				log.info("++++++++++++++++++++++++++***"+budget);
+				defaultInfoRequest.setAmount(Long.parseLong(budget));
+				}
+		}
+		
+		return defaultInfoRequest;
+}
+
+public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName(String processInstanceId,
+		String name) {
+
+	return historyApi.listHistoricTaskInstances(null, processInstanceId, null, null, null, null, null, null, null,
+			null, null, name, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+}
+
 	
     /**
      * Get all the freights.

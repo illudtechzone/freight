@@ -5,7 +5,10 @@ import com.illud.freight.service.dto.FreightDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 /**
  * Service Interface for managing Freight.
@@ -53,4 +56,11 @@ public interface FreightService {
      * @return the list of entities
      */
     Page<FreightDTO> search(String query, Pageable pageable);
+
+	List<FreightDTO> getPendingFreights(String name, String nameLike, String assignee, String assigneeLike,
+			String candidateUser, String candidateGroup, String candidateGroups, String processInstanceId,
+			@Valid String processDefinitionId, @Valid String processDefinitionKey, @Valid String createdOn,
+			@Valid String createdBefore, @Valid String createdAfter);
+
+	FreightDTO getBookingDetails(String processInstanceId);
 }

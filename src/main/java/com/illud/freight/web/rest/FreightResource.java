@@ -5,6 +5,8 @@ import com.illud.freight.web.rest.util.HeaderUtil;
 import com.illud.freight.web.rest.util.PaginationUtil;
 import com.illud.freight.service.dto.FreightDTO;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
+
+import javax.validation.Valid;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -136,4 +140,32 @@ public class FreightResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/getPendingFreights")
+    public List<FreightDTO> getPendingFreights(@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "nameLike", required = false) String nameLike,
+			@RequestParam(value = "assignee", required = false) String assignee,
+			@RequestParam(value = "assigneeLike", required = false) String assigneeLike,
+			@RequestParam(value = "candidateUser", required = false) String candidateUser,
+			@RequestParam(value = "candidateGroup", required = false) String candidateGroup,
+			@RequestParam(value = "candidateGroups", required = false) String candidateGroups,
+			
+			
+			@RequestParam(value = "processInstanceId", required = false) String processInstanceId,
+			
+			@ApiParam(value = "Only return tasks which are part of a process instance which has a process definition with the given id.") @Valid @RequestParam(value = "processDefinitionId", required = false) String processDefinitionId,
+			@ApiParam(value = "Only return tasks which are part of a process instance which has a process definition with the given key.") @Valid @RequestParam(value = "processDefinitionKey", required = false) String processDefinitionKey,
+		@ApiParam(value = "Only return tasks which are created on the given date.") @Valid @RequestParam(value = "createdOn", required = false) String createdOn,
+		@ApiParam(value = "Only return tasks which are created before the given date.") @Valid @RequestParam(value = "createdBefore", required = false) String createdBefore,
+		@ApiParam(value = "Only return tasks which are created after the given date.") @Valid @RequestParam(value = "createdAfter", required = false) String createdAfter){
+		return freightService.getPendingFreights(name,nameLike,assignee,assigneeLike,candidateUser,candidateGroup,candidateGroups,processInstanceId,processDefinitionId,processDefinitionKey,createdOn, createdBefore, createdAfter);
+    	
+    }
+    
+    
+    @GetMapping("/getBookingDetails/{processInstanceId}")
+    public FreightDTO getBookingDetails(@PathVariable(value = "processInstanceId") String processInstanceId) {
+    	return freightService.getBookingDetails(processInstanceId);
+    }
+    
+    
 }

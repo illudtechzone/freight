@@ -39,10 +39,10 @@ eureka:
             git-branch: ${git.branch:}
 ribbon:
     eureka:
-        enabled: true
+        enabled: false
 feign:
     hystrix:
-        enabled: true
+        enabled: false
 #    client:
 #        config:
 #            default:
@@ -150,13 +150,13 @@ spring:
 security:
     oauth2:
         client:
-            access-token-uri:  http://34.74.192.113:8888/auth/realms/freight/protocol/openid-connect/token
-            user-authorization-uri: http://34.74.192.113:8888/auth/realms/freight/protocol/openid-connect/auth
+            access-token-uri:  http://dev.servers.divisosofttech.com:8888/auth/realms/freight/protocol/openid-connect/token
+            user-authorization-uri: http://dev.servers.divisosofttech.com:8888/auth/realms/freight/protocol/openid-connect/auth
             client-id: account
             client-secret: 861f1081-2b85-48a9-82eb-62b38a31be64
             scope: openid profile email
         resource:
-            user-info-uri: http://34.74.192.113:8888/auth/realms/freight/protocol/openid-connect/userinfo
+            user-info-uri: http://dev.servers.divisosofttech.com:8888/auth/realms/freight/protocol/openid-connect/userinfo
 
 server:
     servlet:
@@ -211,4 +211,10 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+activitiRestApi:
+  url: http://34.74.192.113:8080/activiti-rest/service
+  security:
+    basicAuth:
+       username: kermit
+       password: kermit
