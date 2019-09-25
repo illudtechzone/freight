@@ -1,6 +1,10 @@
 package com.illud.freight.service.impl;
 
 import com.illud.freight.service.CustomerService;
+import com.illud.freight.client.activiti_rest_api.api.FormsApi;
+import com.illud.freight.client.activiti_rest_api.model.RestFormProperty;
+import com.illud.freight.client.activiti_rest_api.model.SubmitFormRequest;
+import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
 import com.illud.freight.domain.Company;
 import com.illud.freight.domain.Customer;
 import com.illud.freight.repository.CustomerRepository;
@@ -10,12 +14,14 @@ import com.illud.freight.service.dto.CustomerDTO;
 import com.illud.freight.service.mapper.CustomerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -34,6 +40,9 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper customerMapper;
 
     private final CustomerSearchRepository customerSearchRepository;
+    
+    @Autowired
+    FormsApi formsApi;
 
     public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper, CustomerSearchRepository customerSearchRepository) {
         this.customerRepository = customerRepository;
@@ -130,5 +139,29 @@ public class CustomerServiceImpl implements CustomerService {
 		else {
 			return Optional.of(save(customerDTO));
 		}
+	}
+
+	@Override
+	public void customerStatus(String taskId, CustomerStatus customerStatus) {
+		
+		log .info("into ====================customerStatus()");
+   		List<RestFormProperty>formProperties=new ArrayList<RestFormProperty>();
+   		SubmitFormRequest submitFormRequest = new SubmitFormRequest();
+   		submitFormRequest.setAction("completed");
+   		submitFormRequest.setTaskId(taskId);
+		
+   		RestFormProperty statusFormProperty = new RestFormProperty();
+   		statusFormProperty.setId("status");
+   		statusFormProperty.setName("status");
+   		statusFormProperty.setType("String");
+   		statusFormProperty.setReadable(true);
+   		
+   		statusFormProperty.setValue(customerStatus.getStatus());
+   		formProperties.add(statusFormProperty);
+   		
+   		submitFormRequest.setProperties(formProperties);
+   		formsApi.submitForm(submitFormRequest);
+   		
+		
 	}
 }

@@ -1,5 +1,6 @@
 package com.illud.freight.service;
 
+import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
 import com.illud.freight.service.dto.CustomerDTO;
 
 import org.springframework.data.domain.Page;
@@ -55,4 +56,6 @@ public interface CustomerService {
     Page<CustomerDTO> search(String query, Pageable pageable);
 
 	Optional<CustomerDTO> createcustomerIfnotExist(CustomerDTO customerDTO);
+
+	void customerStatus(String taskId,CustomerStatus customerStatus);
 }

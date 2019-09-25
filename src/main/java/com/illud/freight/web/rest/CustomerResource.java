@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
 import com.illud.freight.service.CustomerService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -143,4 +144,5 @@ public class CustomerResource {
     	
     }
 
+  
 }

@@ -1,5 +1,7 @@
 package com.illud.freight.service;
 
+import com.illud.freight.client.activiti_rest_api.model.freight.TransportOwnerResponse;
+import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.dto.QuotationDTO;
 
 import org.springframework.data.domain.Page;
@@ -53,4 +55,7 @@ public interface QuotationService {
      * @return the list of entities
      */
     Page<QuotationDTO> search(String query, Pageable pageable);
+    
+    void sendQuatation(String taskId,QuotationDTO response);
+
 }

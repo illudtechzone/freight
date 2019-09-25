@@ -1,8 +1,10 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.client.activiti_rest_api.model.freight.TransportOwnerResponse;
 import com.illud.freight.service.QuotationService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
 import com.illud.freight.web.rest.util.PaginationUtil;
+import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.dto.QuotationDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -136,4 +138,9 @@ public class QuotationResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    
+
+    
+	
+    
 }

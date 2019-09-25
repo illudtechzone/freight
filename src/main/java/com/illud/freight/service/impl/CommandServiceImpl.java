@@ -14,7 +14,9 @@ import com.illud.freight.client.activiti_rest_api.api.ProcessInstancesApi;
 import com.illud.freight.client.activiti_rest_api.model.ProcessInstanceCreateRequest;
 import com.illud.freight.client.activiti_rest_api.model.ProcessInstanceResponse;
 import com.illud.freight.client.activiti_rest_api.model.RestVariable;
+import com.illud.freight.client.activiti_rest_api.model.freight.TransportOwnerResponse;
 import com.illud.freight.service.CommandService;
+import com.illud.freight.service.dto.FreightDTO;
 
 
 @Service
@@ -30,6 +32,8 @@ public class CommandServiceImpl implements CommandService {
     
     @Autowired
     private ProcessInstancesApi processInstanceApi;
+
+
 	
 	
 
