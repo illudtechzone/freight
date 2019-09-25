@@ -94,8 +94,8 @@ public class FreightServiceImpl implements FreightService {
         freightInfo.setDestination(freightDTO.getDestinationPlaceId());
         freightInfo.setBuget(freightDTO.getEstimatedAmount());
         freightInfo.setCustomerId(freightDTO.getCustomerId());
-        initiate(freightInfo);
-
+        String pid=initiate(freightInfo);
+        result.setTrackingId(pid);
 
         return result;
     }
