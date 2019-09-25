@@ -63,8 +63,8 @@ fragile Boolean,
 weight Double,
 length Double,
 width Double,
-height Double
-
+height Double,
+trackingId String
 }
 
 enum FreightStatus
