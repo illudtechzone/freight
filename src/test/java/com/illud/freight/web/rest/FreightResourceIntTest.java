@@ -127,6 +127,9 @@ public class FreightResourceIntTest {
     private static final Double DEFAULT_HEIGHT = 1D;
     private static final Double UPDATED_HEIGHT = 2D;
 
+    private static final String DEFAULT_TRACKING_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TRACKING_ID = "BBBBBBBBBB";
+
     @Autowired
     private FreightRepository freightRepository;
 
@@ -206,7 +209,8 @@ public class FreightResourceIntTest {
             .weight(DEFAULT_WEIGHT)
             .length(DEFAULT_LENGTH)
             .width(DEFAULT_WIDTH)
-            .height(DEFAULT_HEIGHT);
+            .height(DEFAULT_HEIGHT)
+            .trackingId(DEFAULT_TRACKING_ID);
         return freight;
     }
 
@@ -255,6 +259,7 @@ public class FreightResourceIntTest {
         assertThat(testFreight.getLength()).isEqualTo(DEFAULT_LENGTH);
         assertThat(testFreight.getWidth()).isEqualTo(DEFAULT_WIDTH);
         assertThat(testFreight.getHeight()).isEqualTo(DEFAULT_HEIGHT);
+        assertThat(testFreight.getTrackingId()).isEqualTo(DEFAULT_TRACKING_ID);
 
         // Validate the Freight in Elasticsearch
         verify(mockFreightSearchRepository, times(1)).save(testFreight);
@@ -317,7 +322,8 @@ public class FreightResourceIntTest {
             .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())))
             .andExpect(jsonPath("$.[*].length").value(hasItem(DEFAULT_LENGTH.doubleValue())))
             .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH.doubleValue())))
-            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())));
+            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())))
+            .andExpect(jsonPath("$.[*].trackingId").value(hasItem(DEFAULT_TRACKING_ID.toString())));
     }
     
     @Test
@@ -354,7 +360,8 @@ public class FreightResourceIntTest {
             .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.doubleValue()))
             .andExpect(jsonPath("$.length").value(DEFAULT_LENGTH.doubleValue()))
             .andExpect(jsonPath("$.width").value(DEFAULT_WIDTH.doubleValue()))
-            .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT.doubleValue()));
+            .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT.doubleValue()))
+            .andExpect(jsonPath("$.trackingId").value(DEFAULT_TRACKING_ID.toString()));
     }
 
     @Test
@@ -401,7 +408,8 @@ public class FreightResourceIntTest {
             .weight(UPDATED_WEIGHT)
             .length(UPDATED_LENGTH)
             .width(UPDATED_WIDTH)
-            .height(UPDATED_HEIGHT);
+            .height(UPDATED_HEIGHT)
+            .trackingId(UPDATED_TRACKING_ID);
         FreightDTO freightDTO = freightMapper.toDto(updatedFreight);
 
         restFreightMockMvc.perform(put("/api/freights")
@@ -437,6 +445,7 @@ public class FreightResourceIntTest {
         assertThat(testFreight.getLength()).isEqualTo(UPDATED_LENGTH);
         assertThat(testFreight.getWidth()).isEqualTo(UPDATED_WIDTH);
         assertThat(testFreight.getHeight()).isEqualTo(UPDATED_HEIGHT);
+        assertThat(testFreight.getTrackingId()).isEqualTo(UPDATED_TRACKING_ID);
 
         // Validate the Freight in Elasticsearch
         verify(mockFreightSearchRepository, times(1)).save(testFreight);
@@ -520,7 +529,8 @@ public class FreightResourceIntTest {
             .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())))
             .andExpect(jsonPath("$.[*].length").value(hasItem(DEFAULT_LENGTH.doubleValue())))
             .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH.doubleValue())))
-            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())));
+            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())))
+            .andExpect(jsonPath("$.[*].trackingId").value(hasItem(DEFAULT_TRACKING_ID)));
     }
 
     @Test

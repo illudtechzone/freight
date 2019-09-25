@@ -98,6 +98,10 @@
         {
             "fieldName": "height",
             "fieldType": "Double"
+        },
+        {
+            "fieldName": "trackingId",
+            "fieldType": "String"
         }
     ],
     "relationships": [],

@@ -105,6 +105,9 @@ public class Freight implements Serializable {
     @Column(name = "height")
     private Double height;
 
+    @Column(name = "tracking_id")
+    private String trackingId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -425,6 +428,19 @@ public class Freight implements Serializable {
     public void setHeight(Double height) {
         this.height = height;
     }
+
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public Freight trackingId(String trackingId) {
+        this.trackingId = trackingId;
+        return this;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -475,6 +491,7 @@ public class Freight implements Serializable {
             ", length=" + getLength() +
             ", width=" + getWidth() +
             ", height=" + getHeight() +
+            ", trackingId='" + getTrackingId() + "'" +
             "}";
     }
 }

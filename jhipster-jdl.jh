@@ -65,6 +65,7 @@ length Double,
 width Double,
 height Double,
 trackingId String
+
 }
 
 enum FreightStatus

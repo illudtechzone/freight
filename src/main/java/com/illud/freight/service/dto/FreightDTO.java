@@ -61,6 +61,8 @@ public class FreightDTO implements Serializable {
 
     private Double height;
 
+    private String trackingId;
+
 
     public Long getId() {
         return id;
@@ -262,6 +264,14 @@ public class FreightDTO implements Serializable {
         this.height = height;
     }
 
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -311,6 +321,7 @@ public class FreightDTO implements Serializable {
             ", length=" + getLength() +
             ", width=" + getWidth() +
             ", height=" + getHeight() +
+            ", trackingId='" + getTrackingId() + "'" +
             "}";
     }
 }
