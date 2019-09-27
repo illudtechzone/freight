@@ -19,6 +19,8 @@ import com.illud.freight.repository.search.FreightSearchRepository;
 import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.mapper.FreightMapper;
 
+import net.bytebuddy.asm.Advice.Return;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -371,4 +373,16 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
         return freightSearchRepository.search(queryStringQuery(query), pageable)
             .map(freightMapper::toDto);
     }
+
+	@Override
+	public Optional<FreightDTO> convertToDto(Freight freight) {
+		return  Optional.of(freight).map(freightMapper::toDto);
+		
+	}
+
+	@Override
+	public Page<FreightDTO> convertToDtoList(Page<Freight> page) {
+		Page<FreightDTO> pageDto=  page.map(freightMapper::toDto);
+		return pageDto; 
+	}
 }

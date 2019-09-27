@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.domain.Freight;
 import com.illud.freight.service.FreightService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -139,7 +140,17 @@ public class FreightResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/freights");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-  
+    @PostMapping("/convertToDto")
+    public ResponseEntity<FreightDTO> createFreightDTO(@RequestBody Freight freight) {
+        Optional<FreightDTO> freightDto=freightService.convertToDto(freight);
+        return ResponseUtil.wrapOrNotFound(freightDto);
+    }
+    @PostMapping("/convertToList")
+    public ResponseEntity<List<FreightDTO>> createFreightDtoList(@RequestBody Page<Freight> page){
+    	Page<FreightDTO> pageDto = freightService.convertToDtoList(page);
+		return ResponseEntity.ok().body(pageDto.getContent());
+    	
+    }
 
     
     

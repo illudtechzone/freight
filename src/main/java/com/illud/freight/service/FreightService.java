@@ -1,5 +1,6 @@
 package com.illud.freight.service;
 
+import com.illud.freight.domain.Freight;
 import com.illud.freight.service.dto.FreightDTO;
 
 import org.springframework.data.domain.Page;
@@ -63,4 +64,8 @@ public interface FreightService {
 			@Valid String createdBefore, @Valid String createdAfter);
 
 	FreightDTO getBookingDetails(String processInstanceId);
+
+	Optional<FreightDTO> convertToDto(Freight freight);
+
+	Page<FreightDTO> convertToDtoList(Page<Freight> page);
 }
