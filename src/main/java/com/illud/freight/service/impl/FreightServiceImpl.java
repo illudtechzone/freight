@@ -12,8 +12,11 @@ import com.illud.freight.client.activiti_rest_api.model.ProcessInstanceResponse;
 import com.illud.freight.client.activiti_rest_api.model.RestFormProperty;
 import com.illud.freight.client.activiti_rest_api.model.RestVariable;
 import com.illud.freight.client.activiti_rest_api.model.SubmitFormRequest;
+import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
 import com.illud.freight.client.activiti_rest_api.model.freight.DefaultInfo;
 import com.illud.freight.domain.Freight;
+import com.illud.freight.domain.enumeration.FreightStatus;
+import com.illud.freight.domain.enumeration.RequestStatus;
 import com.illud.freight.repository.FreightRepository;
 import com.illud.freight.repository.search.FreightSearchRepository;
 import com.illud.freight.service.dto.FreightDTO;
@@ -83,6 +86,8 @@ public class FreightServiceImpl implements FreightService {
     public FreightDTO save(FreightDTO freightDTO) {
         log.debug("Request to save Freight : {}", freightDTO);
         Freight freight = freightMapper.toEntity(freightDTO);
+        
+        
         freight = freightRepository.save(freight);
         FreightDTO result = freightMapper.toDto(freight);
         freightSearchRepository.save(freight);
@@ -96,6 +101,13 @@ public class FreightServiceImpl implements FreightService {
         freightInfo.setCustomerId(freightDTO.getCustomerId());
         String pid=initiate(freightInfo);
         result.setTrackingId(pid);
+        result.setRequestedStatus(RequestStatus.REQUEST);
+        
+        Freight fre = freightMapper.toEntity(result);
+        freightRepository.save(fre);
+        freightSearchRepository.save(fre);
+        
+        
 
         return result;
     }
@@ -108,7 +120,7 @@ public class FreightServiceImpl implements FreightService {
 		ProcessInstanceCreateRequest processInstanceCreateRequest=new ProcessInstanceCreateRequest();
    		List<RestVariable> variables=new ArrayList<RestVariable>();
    		
-   		processInstanceCreateRequest.setProcessDefinitionId("freight:3:41902");
+   		processInstanceCreateRequest.setProcessDefinitionId("freight:4:45140");
    		
    		RestVariable riderRestVariable=new RestVariable();
    		riderRestVariable.setName("customer");
@@ -220,9 +232,9 @@ public class FreightServiceImpl implements FreightService {
 			 String createdAfter/*Pageable pageable*/) {
 
 		
-		ResponseEntity<DataResponse> response = tasksApi.getTasks(name, nameLike, null, null, null, null, assignee,
+		ResponseEntity<DataResponse> response = tasksApi.getTasks("get requests and send quotations", nameLike, null, null, null, null, assignee,
 				assigneeLike, null, null, null, null, candidateUser, candidateGroup, candidateGroups, null, null, null,
-				processInstanceId, null, null, "freight:3:41902", null, null, null, null, null, createdOn, createdBefore, createdAfter, null,
+				processInstanceId, null, null, "freight:4:45140", null, null, null, null, null, createdOn, createdBefore, createdAfter, null,
 				null, null, null, null, null, null, null, null, null, null, null, null, /*pageable.getPageNumber()+""*/"0",null, "desc",/* pageable.getPageSize()+""*/"1500");
 		List<LinkedHashMap<String, String>> myTasks = (List<LinkedHashMap<String, String>>) response.getBody()
 				.getData();
@@ -231,18 +243,24 @@ public class FreightServiceImpl implements FreightService {
 		List<FreightDTO> freights = new ArrayList<FreightDTO>();
 		
 		myTasks.forEach(task -> {
-			FreightDTO openTask = new FreightDTO();
+			//FreightDTO openTask = new FreightDTO();
 			String taskProcessInstanceId = task.get("processInstanceId");
 			//log.info("***************************************************Process Instance id to delete  is  "+taskProcessInstanceId);
 			String taskName = task.get("name");
 			String taskId = task.get("id");
 			log.info("*****************************////////////////////////////////////**********"+taskName);
 			log.info("*****************************////////////////////////////////////**********"+taskId);
-			openTask.setPickupPlaceId(getBookingDetails(taskProcessInstanceId).getPickupPlaceId());
-			openTask.setDestinationPlaceId(getBookingDetails(taskProcessInstanceId).getDestinationPlaceId());
-			openTask.setEstimatedAmount(getBookingDetails(taskProcessInstanceId).getEstimatedAmount());
+			log.info("*****************************////////////////////////////////////**********"+taskProcessInstanceId);
+			
+			FreightDTO freight = getBookingDetails(taskProcessInstanceId);
+			freight.setTrackingId(taskProcessInstanceId);
+			
+			//openTask.setPickupPlaceId(getBookingDetails(taskProcessInstanceId).getPickupPlaceId());
+			//openTask.setDestinationPlaceId(getBookingDetails(taskProcessInstanceId).getDestinationPlaceId());
+			//openTask.setEstimatedAmount(getBookingDetails(taskProcessInstanceId).getEstimatedAmount());
 			//openTask.setCustomerId(getBookingDetails(taskProcessInstanceId).getCustomerId());
-			freights.add(openTask);
+			//openTask.setTrackingId(taskProcessInstanceId);
+			freights.add(freight);
 		});
 		return freights;
 		}
@@ -306,7 +324,7 @@ public FreightDTO getBookingDetails(String processInstanceId) {
 public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName(String processInstanceId,
 		String name) {
 
-	return historyApi.listHistoricTaskInstances(null, processInstanceId, null, null, null, null, null, null, null,
+	return historyApi.listHistoricTaskInstances(null, processInstanceId, null, null, "freight:4:45140", null, null, null, null,
 			null, null, name, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
@@ -371,4 +389,68 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
         return freightSearchRepository.search(queryStringQuery(query), pageable)
             .map(freightMapper::toDto);
     }
+    
+    
+    
+    
+    @Override
+	public void customerStatus(String taskId, CustomerStatus customerStatus) {
+		
+		log .info("into ====================customerStatus()");
+   		List<RestFormProperty>formProperties=new ArrayList<RestFormProperty>();
+   		SubmitFormRequest submitFormRequest = new SubmitFormRequest();
+   		submitFormRequest.setAction("completed");
+   		submitFormRequest.setTaskId(taskId);
+		
+   		RestFormProperty statusFormProperty = new RestFormProperty();
+   		statusFormProperty.setId("status");
+   		statusFormProperty.setName("status");
+   		statusFormProperty.setType("String");
+   		statusFormProperty.setReadable(true);
+   		
+   		statusFormProperty.setValue(customerStatus.getStatus());
+   		formProperties.add(statusFormProperty);
+   		
+   		submitFormRequest.setProperties(formProperties);
+   		
+   		formsApi.submitForm(submitFormRequest);
+   		
+   		String freightTrackingId = customerStatus.getTrackingId();
+   		
+   		log.info("---------------------------------------------"+freightTrackingId);
+   		Optional<FreightDTO> freight = findByTrackingId(freightTrackingId);
+   		log.info("---------------------------------------------"+freight);
+   		FreightDTO f=freight.get();
+   		log.info("******************************************************"+f);
+   		
+   		log.info("---------------------------------------------"+freight);
+   		
+   		log.info("---------------------------------------------"+customerStatus.getStatus());
+   		
+   		if (customerStatus.getStatus().equals("accept")) {
+   			log.info("*********success1");
+   		f.setRequestedStatus(RequestStatus.CONFIRM);
+   		Freight fre = freightMapper.toEntity(f);
+   		freightRepository.save(fre);
+   		
+   		}
+   		else if (customerStatus.getStatus().equals("return")){
+   			log.info("*********success2");
+   			f.setRequestedStatus(RequestStatus.REJECT);
+   			Freight fre = freightMapper.toEntity(f);
+   	   		freightRepository.save(fre);
+   		}
+   		else {
+   			log.info("*********success3");
+   		}
+   		
+	}
+
+	@Override
+	public Optional<FreightDTO> findByTrackingId(String trackingId) {
+		
+		Optional<FreightDTO> freight = freightRepository.findByTrackingId(trackingId).map(freightMapper::toDto);
+		return freight;
+	}
+    
 }
