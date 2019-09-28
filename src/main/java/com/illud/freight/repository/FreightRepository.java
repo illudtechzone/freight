@@ -4,6 +4,9 @@ import com.illud.freight.domain.Freight;
 
 import java.util.Optional;
 
+import com.illud.freight.service.dto.FreightDTO;
+
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface FreightRepository extends JpaRepository<Freight, Long> {
 	
 	Optional<Freight> findByTrackingId(String trackingId);
+
+	void save(FreightDTO freightDTO);
 
 }

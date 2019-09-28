@@ -1,6 +1,10 @@
 package com.illud.freight.service;
 
+
 import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
+
+import com.illud.freight.domain.Freight;
+
 import com.illud.freight.service.dto.FreightDTO;
 
 import org.springframework.data.domain.Page;
@@ -23,6 +27,8 @@ public interface FreightService {
      * @return the persisted entity
      */
     FreightDTO save(FreightDTO freightDTO);
+    
+    FreightDTO update(FreightDTO freightDTO);
 
     /**
      * Get all the freights.
@@ -64,8 +70,20 @@ public interface FreightService {
 			@Valid String createdBefore, @Valid String createdAfter);
 
 	FreightDTO getBookingDetails(String processInstanceId);
+
 	
 	void customerStatus(String taskId,CustomerStatus customerStatus);
 
 	Optional<FreightDTO> findByTrackingId(String trackingId);
+
+
+	Optional<FreightDTO> convertToDto(Freight freight);
+
+
+	List<FreightDTO> convertToDtoList(List<Freight> page);
+
+
+
+
+
 }

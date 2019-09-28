@@ -54,5 +54,6 @@ public class CommandResource {
 	    public void status(@PathVariable String taskId,@RequestBody CustomerStatus customerStatus) {
 		  freightService.customerStatus(taskId,customerStatus);
 	    }
+	  
 	
 }
