@@ -67,5 +67,5 @@ public interface FreightService {
 
 	Optional<FreightDTO> convertToDto(Freight freight);
 
-	Page<FreightDTO> convertToDtoList(Page<Freight> page);
+	List<FreightDTO> convertToDtoList(List<Freight> page);
 }

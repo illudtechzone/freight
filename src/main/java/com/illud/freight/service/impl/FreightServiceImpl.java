@@ -381,8 +381,11 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
 	}
 
 	@Override
-	public Page<FreightDTO> convertToDtoList(Page<Freight> page) {
-		Page<FreightDTO> pageDto=  page.map(freightMapper::toDto);
-		return pageDto; 
+	public List<FreightDTO> convertToDtoList(List<Freight> page) {
+		List<FreightDTO> dtos = new ArrayList<>();
+		page.forEach(data->{
+			dtos.add(freightMapper.toDto(data));
+		});
+		return dtos; 
 	}
 }
