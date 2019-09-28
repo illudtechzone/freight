@@ -18,6 +18,7 @@ import com.illud.freight.repository.FreightRepository;
 import com.illud.freight.repository.search.FreightSearchRepository;
 import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.mapper.FreightMapper;
+import com.illud.freight.web.rest.errors.BadRequestAlertException;
 
 import net.bytebuddy.asm.Advice.Return;
 
@@ -46,6 +47,8 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class FreightServiceImpl implements FreightService {
 
     private final Logger log = LoggerFactory.getLogger(FreightServiceImpl.class);
+    
+    private static final String ENTITY_NAME = "freightFreight";
 
     private final FreightRepository freightRepository;
 
@@ -388,4 +391,17 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
 		});
 		return dtos; 
 	}
+
+	@Override
+	public FreightDTO update(FreightDTO freightDTO) {
+		log.debug("<<<<<<<<<< update freight>>>>>>>>",freightDTO);
+		if(freightDTO.getId()==null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		  Freight freight = freightMapper.toEntity(freightDTO);
+		  freight = freightRepository.save(freight);
+		  FreightDTO result = freightMapper.toDto(freight);
+		return  result;
+	}
+	
 }

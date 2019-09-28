@@ -23,6 +23,8 @@ public interface FreightService {
      * @return the persisted entity
      */
     FreightDTO save(FreightDTO freightDTO);
+    
+    FreightDTO update(FreightDTO freightDTO);
 
     /**
      * Get all the freights.
@@ -67,5 +69,10 @@ public interface FreightService {
 
 	Optional<FreightDTO> convertToDto(Freight freight);
 
+
 	List<FreightDTO> convertToDtoList(List<Freight> page);
+
+
+
+
 }
