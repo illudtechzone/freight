@@ -79,7 +79,7 @@ public class FreightResource {
         if (freightDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        FreightDTO result = freightService.save(freightDTO);
+        FreightDTO result = freightService.update(freightDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, freightDTO.getId().toString()))
             .body(result);
