@@ -4,6 +4,15 @@ public class CustomerStatus {
 
 	String status;
 	String trackingId;
+	Long quotationId;
+
+	public Long getQuotationId() {
+		return quotationId;
+	}
+
+	public void setQuotationId(Long quotationId) {
+		this.quotationId = quotationId;
+	}
 
 	public String getTrackingId() {
 		return trackingId;

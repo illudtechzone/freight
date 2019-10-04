@@ -15,12 +15,16 @@ import com.illud.freight.client.activiti_rest_api.model.SubmitFormRequest;
 import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
 import com.illud.freight.client.activiti_rest_api.model.freight.DefaultInfo;
 import com.illud.freight.domain.Freight;
+import com.illud.freight.domain.Quotation;
 import com.illud.freight.domain.enumeration.FreightStatus;
 import com.illud.freight.domain.enumeration.RequestStatus;
 import com.illud.freight.repository.FreightRepository;
+import com.illud.freight.repository.QuotationRepository;
 import com.illud.freight.repository.search.FreightSearchRepository;
 import com.illud.freight.service.dto.FreightDTO;
+import com.illud.freight.service.dto.QuotationDTO;
 import com.illud.freight.service.mapper.FreightMapper;
+import com.illud.freight.service.mapper.QuotationMapper;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 
 import net.bytebuddy.asm.Advice.Return;
@@ -59,6 +63,8 @@ public class FreightServiceImpl implements FreightService {
 
     private final FreightSearchRepository freightSearchRepository;
     
+    private final QuotationMapper quotationMapper;
+    
     @Autowired
     private FormsApi formsApi;
 
@@ -70,15 +76,19 @@ public class FreightServiceImpl implements FreightService {
 	
 	@Autowired
 	private HistoryApi historyApi;
+	
+	@Autowired
+	private QuotationRepository quotationRepository;
 
     
     @Autowired
     private ProcessInstancesApi processInstanceApi;
 
-    public FreightServiceImpl(FreightRepository freightRepository, FreightMapper freightMapper, FreightSearchRepository freightSearchRepository) {
+    public FreightServiceImpl(FreightRepository freightRepository, FreightMapper freightMapper, FreightSearchRepository freightSearchRepository, QuotationMapper quotationMapper) {
         this.freightRepository = freightRepository;
         this.freightMapper = freightMapper;
         this.freightSearchRepository = freightSearchRepository;
+        this.quotationMapper = quotationMapper;
     }
 
     /**
@@ -433,16 +443,29 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
    		
    		log.info("---------------------------------------------"+customerStatus.getStatus());
    		
+   		
+   		Long quotationId = customerStatus.getQuotationId();
+   		log.info("---------------------------------------------"+quotationId);
+   		Optional<QuotationDTO> quotation = quotationRepository.findById(quotationId).map(quotationMapper::toDto);;
+   		QuotationDTO quotationDto=quotation.get();
+   		
+   		log.info("******************************************************"+quotationDto);
+   		
+   		
    		if (customerStatus.getStatus().equals("accept")) {
    			log.info("*********success1");
    		f.setRequestedStatus(RequestStatus.CONFIRM);
+   		f.setCompanyId(quotationDto.getCompanyId());
+   		f.setOriginalAmount(quotationDto.getAmount());
    		Freight fre = freightMapper.toEntity(f);
    		freightRepository.save(fre);
+   	
+   		
    		
    		}
    		else if (customerStatus.getStatus().equals("return")){
    			log.info("*********success2");
-   			f.setRequestedStatus(RequestStatus.REJECT);
+   			f.setRequestedStatus(RequestStatus.REQUEST);
    			Freight fre = freightMapper.toEntity(f);
    	   		freightRepository.save(fre);
    		}
