@@ -459,6 +459,7 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
    		f.setOriginalAmount(quotationDto.getAmount());
    		Freight fre = freightMapper.toEntity(f);
    		freightRepository.save(fre);
+   		freightSearchRepository.save(fre);
    	
    		
    		
@@ -468,6 +469,7 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
    			f.setRequestedStatus(RequestStatus.REQUEST);
    			Freight fre = freightMapper.toEntity(f);
    	   		freightRepository.save(fre);
+   	   		freightSearchRepository.save(fre);
    		}
    		else {
    			log.info("*********success3");
