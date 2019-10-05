@@ -141,27 +141,5 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 	}
 
-	@Override
-	public void customerStatus(String taskId, CustomerStatus customerStatus) {
-		
-		log .info("into ====================customerStatus()");
-   		List<RestFormProperty>formProperties=new ArrayList<RestFormProperty>();
-   		SubmitFormRequest submitFormRequest = new SubmitFormRequest();
-   		submitFormRequest.setAction("completed");
-   		submitFormRequest.setTaskId(taskId);
-		
-   		RestFormProperty statusFormProperty = new RestFormProperty();
-   		statusFormProperty.setId("status");
-   		statusFormProperty.setName("status");
-   		statusFormProperty.setType("String");
-   		statusFormProperty.setReadable(true);
-   		
-   		statusFormProperty.setValue(customerStatus.getStatus());
-   		formProperties.add(statusFormProperty);
-   		
-   		submitFormRequest.setProperties(formProperties);
-   		formsApi.submitForm(submitFormRequest);
-   		
-		
-	}
+	
 }

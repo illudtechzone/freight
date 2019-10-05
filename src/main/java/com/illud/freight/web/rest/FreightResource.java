@@ -146,12 +146,18 @@ public class FreightResource {
         return ResponseUtil.wrapOrNotFound(freightDto);
     }
     @PostMapping("/convertToList")
-    public ResponseEntity<List<FreightDTO>> createFreightDtoList(@RequestBody Page<Freight> page){
-    	Page<FreightDTO> pageDto = freightService.convertToDtoList(page);
-		return ResponseEntity.ok().body(pageDto.getContent());
+    public ResponseEntity<List<FreightDTO>> createFreightDtoList(@RequestBody List<Freight> page){
+    	List<FreightDTO> pageDto = freightService.convertToDtoList(page);
+		return ResponseEntity.ok().body(pageDto);
     	
     }
 
+    @GetMapping("/freight/{trackingId}")
+    public ResponseEntity<FreightDTO> getFreightByTrackingId(@PathVariable String  trackingId){
+    	
+    	Optional<FreightDTO> freightDTO = freightService.findByTrackingId(trackingId);
+    	 return ResponseUtil.wrapOrNotFound(freightDTO);
+    }
     
     
 }

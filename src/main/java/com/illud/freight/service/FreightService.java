@@ -1,6 +1,10 @@
 package com.illud.freight.service;
 
+
+import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
+
 import com.illud.freight.domain.Freight;
+
 import com.illud.freight.service.dto.FreightDTO;
 
 import org.springframework.data.domain.Page;
@@ -67,11 +71,19 @@ public interface FreightService {
 
 	FreightDTO getBookingDetails(String processInstanceId);
 
+	
+	void customerStatus(String taskId,CustomerStatus customerStatus);
+
+	Optional<FreightDTO> findByTrackingId(String trackingId);
+
+
 	Optional<FreightDTO> convertToDto(Freight freight);
 
-	Page<FreightDTO> convertToDtoList(Page<Freight> page);
+
+	List<FreightDTO> convertToDtoList(List<Freight> page);
 
 
 
-	
+
+
 }

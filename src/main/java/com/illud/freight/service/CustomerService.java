@@ -57,5 +57,5 @@ public interface CustomerService {
 
 	Optional<CustomerDTO> createcustomerIfnotExist(CustomerDTO customerDTO);
 
-	void customerStatus(String taskId,CustomerStatus customerStatus);
+	
 }
