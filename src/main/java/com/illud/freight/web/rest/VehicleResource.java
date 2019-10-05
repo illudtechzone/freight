@@ -141,14 +141,14 @@ public class VehicleResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
     
-    @GetMapping("/convertToDto")
+    @PostMapping("/convertToVehicleDto")
     public ResponseEntity<VehicleDTO> createDto(@RequestBody Vehicle vehicle){
     	log.debug("<<<<< convert to dto >>>>>>",vehicle);
     	Optional<VehicleDTO> result = vehicleService.convertToDto(vehicle);
 		return ResponseUtil.wrapOrNotFound(result);
     	
     }
-    @GetMapping("/converToDtoList")
+    @PostMapping("/converToVehicleDtoList")
     public ResponseEntity<List<VehicleDTO>> createDtoList(@RequestBody Page<Vehicle> vehicle){
     	log.debug("<<<<<< convert to dto list >>>>>>",vehicle);
     	Page<VehicleDTO> page = vehicleService.convertToDtoList(vehicle);
