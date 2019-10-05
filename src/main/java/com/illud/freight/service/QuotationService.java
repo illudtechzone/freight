@@ -56,6 +56,6 @@ public interface QuotationService {
      */
     Page<QuotationDTO> search(String query, Pageable pageable);
     
-    void sendQuatation(String taskId,QuotationDTO response);
+    //void sendQuatation(String taskId,QuotationDTO response);
 
 }
