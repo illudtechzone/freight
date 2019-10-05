@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.domain.Vehicle;
 import com.illud.freight.service.VehicleService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -138,6 +139,21 @@ public class VehicleResource {
         Page<VehicleDTO> page = vehicleService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/vehicles");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
+    @GetMapping("/convertToDto")
+    public ResponseEntity<VehicleDTO> createDto(@RequestBody Vehicle vehicle){
+    	log.debug("<<<<< convert to dto >>>>>>",vehicle);
+    	Optional<VehicleDTO> result = vehicleService.convertToDto(vehicle);
+		return ResponseUtil.wrapOrNotFound(result);
+    	
+    }
+    @GetMapping("/converToDtoList")
+    public ResponseEntity<List<VehicleDTO>> createDtoList(@RequestBody Page<Vehicle> vehicle){
+    	log.debug("<<<<<< convert to dto list >>>>>>",vehicle);
+    	Page<VehicleDTO> page = vehicleService.convertToDtoList(vehicle);
+		return ResponseEntity.ok().body(page.getContent());
+    	
     }
 
 }

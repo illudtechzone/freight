@@ -118,4 +118,17 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleSearchRepository.search(queryStringQuery(query), pageable)
             .map(vehicleMapper::toDto);
     }
+
+	@Override
+	public Optional<VehicleDTO> convertToDto(Vehicle vehicle) {
+		log.debug("<<<<< convert to optional toDto >>>>>>",vehicle);
+		return Optional.of(vehicle).map(vehicleMapper::toDto);
+	}
+
+	@Override
+	public Page<VehicleDTO> convertToDtoList(Page<Vehicle> vehicle) {
+		log.debug("<<<< convert to entitylist to toDto >>>>",vehicle);
+		Page<VehicleDTO> pageDto = vehicle.map(vehicleMapper::toDto);
+		return pageDto;
+	}
 }
