@@ -4,6 +4,7 @@ import com.illud.freight.service.VehicleService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
 import com.illud.freight.web.rest.util.PaginationUtil;
+import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.dto.VehicleDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -142,18 +143,17 @@ public class VehicleResource {
     }
     
     @PostMapping("/convertToVehicleDto")
-    public ResponseEntity<VehicleDTO> createDto(@RequestBody Vehicle vehicle){
-    	log.debug("<<<<< convert to dto >>>>>>",vehicle);
+    public ResponseEntity<VehicleDTO> createVehicleDto(@RequestBody Vehicle vehicle){
+    	log.debug("<<<<< convert to dto in rest >>>>>>",vehicle);
     	Optional<VehicleDTO> result = vehicleService.convertToDto(vehicle);
 		return ResponseUtil.wrapOrNotFound(result);
     	
     }
     @PostMapping("/converToVehicleDtoList")
-    public ResponseEntity<List<VehicleDTO>> createDtoList(@RequestBody Page<Vehicle> vehicle){
-    	log.debug("<<<<<< convert to dto list >>>>>>",vehicle);
-    	Page<VehicleDTO> page = vehicleService.convertToDtoList(vehicle);
-		return ResponseEntity.ok().body(page.getContent());
+    public ResponseEntity<List<VehicleDTO>> createVehicleDtoList(@RequestBody List<Vehicle> list){
+    	log.debug("<<<<<< convert to dto list in rest >>>>>>",list);
+    	List<VehicleDTO> pageDto = vehicleService.convertToDtoList(list);
+		return ResponseEntity.ok().body(pageDto);
     	
     }
-
 }

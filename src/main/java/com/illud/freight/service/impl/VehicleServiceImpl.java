@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -126,9 +128,13 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public Page<VehicleDTO> convertToDtoList(Page<Vehicle> vehicle) {
+	public List<VehicleDTO> convertToDtoList(List<Vehicle> vehicle) {
 		log.debug("<<<< convert to entitylist to toDto >>>>",vehicle);
-		Page<VehicleDTO> pageDto = vehicle.map(vehicleMapper::toDto);
-		return pageDto;
+		List<VehicleDTO> listDto = new ArrayList<>();
+		vehicle.forEach(data->{
+			listDto.add(vehicleMapper.toDto(data));});
+		return listDto;
 	}
+
+	
 }
