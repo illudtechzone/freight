@@ -44,11 +44,13 @@ public class CommandResource {
 	 *
 	 */
 	
-	@PostMapping("/sendQuatation/{taskId}")
-	public void sendQuatation(@PathVariable String taskId, @RequestBody QuotationDTO response) {
-		 quotationService.sendQuatation(taskId,response);
-		
-	}
+	/*
+	 * @PostMapping("/sendQuatation/{taskId}") public void
+	 * sendQuatation(@PathVariable String taskId, @RequestBody QuotationDTO
+	 * response) { quotationService.sendQuatation(taskId,response);
+	 * 
+	 * }
+	 */
 	
 	  @PostMapping("/customer/status/{taskId}")
 	    public void status(@PathVariable String taskId,@RequestBody CustomerStatus customerStatus) {

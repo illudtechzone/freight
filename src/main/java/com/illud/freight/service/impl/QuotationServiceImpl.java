@@ -122,48 +122,45 @@ public class QuotationServiceImpl implements QuotationService {
     }
     
 
-	@Override
-	public void sendQuatation(String taskId,QuotationDTO response) {
-		
-		log .info("into ====================sendQuatation()");
-   		List<RestFormProperty>formProperties=new ArrayList<RestFormProperty>();
-   		SubmitFormRequest submitFormRequest = new SubmitFormRequest();
-   		submitFormRequest.setAction("completed");
-   		submitFormRequest.setTaskId(taskId);
-		
-   		RestFormProperty finalizedBudgetFormProperty = new RestFormProperty();
-   		finalizedBudgetFormProperty.setId("finalizedBudget");
-   		finalizedBudgetFormProperty.setName("finalizedBudget");
-   		finalizedBudgetFormProperty.setType("String");
-   		finalizedBudgetFormProperty.setReadable(true);
-   		String amount = ""+response.getAmount();
-   		finalizedBudgetFormProperty.setValue(amount);
-   		formProperties.add(finalizedBudgetFormProperty);
-   		
-   		RestFormProperty truckTypeFormProperty = new RestFormProperty();
-   		truckTypeFormProperty.setId("truckType");
-   		truckTypeFormProperty.setName("truckType");
-   		truckTypeFormProperty.setType("String");
-   		truckTypeFormProperty.setReadable(true);
-   		String vehicleType = ""+response.getVehicleId();
-   		truckTypeFormProperty.setValue(vehicleType);
-   		formProperties.add(truckTypeFormProperty);
-   		
-   		
-   		RestFormProperty freightIdFormProperty = new RestFormProperty();
-   		freightIdFormProperty.setId("freightId");
-   		freightIdFormProperty.setName("freightId");
-   		freightIdFormProperty.setType("String");
-   		freightIdFormProperty.setReadable(true);
-   		String customerId = ""+response.getFreightId();
-   		freightIdFormProperty.setValue(customerId);
-   		formProperties.add(freightIdFormProperty);
-		
-   		submitFormRequest.setProperties(formProperties);
-   		formsApi.submitForm(submitFormRequest);
-   		save(response);
-		
-	}
+	/*
+	 * @Override public void sendQuatation(String taskId,QuotationDTO response) {
+	 * 
+	 * log .info("into ====================sendQuatation()");
+	 * List<RestFormProperty>formProperties=new ArrayList<RestFormProperty>();
+	 * SubmitFormRequest submitFormRequest = new SubmitFormRequest();
+	 * submitFormRequest.setAction("completed");
+	 * submitFormRequest.setTaskId(taskId);
+	 * 
+	 * RestFormProperty finalizedBudgetFormProperty = new RestFormProperty();
+	 * finalizedBudgetFormProperty.setId("finalizedBudget");
+	 * finalizedBudgetFormProperty.setName("finalizedBudget");
+	 * finalizedBudgetFormProperty.setType("String");
+	 * finalizedBudgetFormProperty.setReadable(true); String amount =
+	 * ""+response.getAmount(); finalizedBudgetFormProperty.setValue(amount);
+	 * formProperties.add(finalizedBudgetFormProperty);
+	 * 
+	 * RestFormProperty truckTypeFormProperty = new RestFormProperty();
+	 * truckTypeFormProperty.setId("truckType");
+	 * truckTypeFormProperty.setName("truckType");
+	 * truckTypeFormProperty.setType("String");
+	 * truckTypeFormProperty.setReadable(true); String vehicleType =
+	 * ""+response.getVehicleId(); truckTypeFormProperty.setValue(vehicleType);
+	 * formProperties.add(truckTypeFormProperty);
+	 * 
+	 * 
+	 * RestFormProperty freightIdFormProperty = new RestFormProperty();
+	 * freightIdFormProperty.setId("freightId");
+	 * freightIdFormProperty.setName("freightId");
+	 * freightIdFormProperty.setType("String");
+	 * freightIdFormProperty.setReadable(true); String customerId =
+	 * ""+response.getFreightId(); freightIdFormProperty.setValue(customerId);
+	 * formProperties.add(freightIdFormProperty);
+	 * 
+	 * submitFormRequest.setProperties(formProperties);
+	 * formsApi.submitForm(submitFormRequest); save(response);
+	 * 
+	 * }
+	 */
     
     
 }
