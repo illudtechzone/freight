@@ -135,12 +135,5 @@ public class CompanyResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/companies");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    @PostMapping("/create/companies")
-    public ResponseEntity<CompanyDTO> createcompantIfnotExist(@RequestBody CompanyDTO companyDTO){
-    	log.debug("<<<<<<<< create company if not exists>>>>>>>>",companyDTO);
-    	Optional<CompanyDTO> result = companyService.createcompanyIfnotExist(companyDTO);
-		return ResponseUtil.wrapOrNotFound(result);
-    	
-    }
 
 }

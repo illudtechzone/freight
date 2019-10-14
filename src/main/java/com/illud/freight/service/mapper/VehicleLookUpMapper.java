@@ -8,10 +8,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity VehicleLookUp and its DTO VehicleLookUpDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {PricingMapper.class})
 public interface VehicleLookUpMapper extends EntityMapper<VehicleLookUpDTO, VehicleLookUp> {
 
+    @Mapping(source = "pricing.id", target = "pricingId")
+    VehicleLookUpDTO toDto(VehicleLookUp vehicleLookUp);
 
+    @Mapping(source = "pricingId", target = "pricing")
+    VehicleLookUp toEntity(VehicleLookUpDTO vehicleLookUpDTO);
 
     default VehicleLookUp fromId(Long id) {
         if (id == null) {

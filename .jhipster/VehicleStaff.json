@@ -1,0 +1,37 @@
+{
+    "name": "VehicleStaff",
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "StaffType",
+            "fieldValues": "DRIVER,STAFF"
+        },
+        {
+            "fieldName": "staffId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "priority",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "vehicle",
+            "otherEntityRelationshipName": "vehicleStaffs",
+            "relationshipName": "vehicle",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191014072854",
+    "entityTableName": "vehicle_staff",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}

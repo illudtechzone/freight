@@ -13,6 +13,8 @@ public interface CompanyMapper extends EntityMapper<CompanyDTO, Company> {
 
 
     @Mapping(target = "vehicles", ignore = true)
+    @Mapping(target = "drivers", ignore = true)
+    @Mapping(target = "staffs", ignore = true)
     Company toEntity(CompanyDTO companyDTO);
 
     default Company fromId(Long id) {

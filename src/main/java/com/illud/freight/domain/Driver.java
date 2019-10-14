@@ -1,6 +1,8 @@
 package com.illud.freight.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,6 +10,8 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -36,6 +40,13 @@ public class Driver implements Serializable {
 
     @Column(name = "phone_number")
     private Long phoneNumber;
+
+    @OneToMany(mappedBy = "driver")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<DriverDocument> driverDocuments = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties("drivers")
+    private Company company;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -96,6 +107,44 @@ public class Driver implements Serializable {
 
     public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Set<DriverDocument> getDriverDocuments() {
+        return driverDocuments;
+    }
+
+    public Driver driverDocuments(Set<DriverDocument> driverDocuments) {
+        this.driverDocuments = driverDocuments;
+        return this;
+    }
+
+    public Driver addDriverDocuments(DriverDocument driverDocument) {
+        this.driverDocuments.add(driverDocument);
+        driverDocument.setDriver(this);
+        return this;
+    }
+
+    public Driver removeDriverDocuments(DriverDocument driverDocument) {
+        this.driverDocuments.remove(driverDocument);
+        driverDocument.setDriver(null);
+        return this;
+    }
+
+    public void setDriverDocuments(Set<DriverDocument> driverDocuments) {
+        this.driverDocuments = driverDocuments;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public Driver company(Company company) {
+        this.company = company;
+        return this;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

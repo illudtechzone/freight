@@ -133,6 +133,10 @@ public class VehicleServiceImpl implements VehicleService {
 		List<VehicleDTO> listDto = new ArrayList<>();
 		vehicle.forEach(data->{
 			listDto.add(vehicleMapper.toDto(data));});
+		
+		//for(int i=0;i<vehicle.size();i++) {
+		//	listDto.add(vehicleMapper.toDto(vehicle.get(i)));
+		//}
 		return listDto;
 	}
 

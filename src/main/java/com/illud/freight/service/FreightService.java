@@ -80,7 +80,7 @@ public interface FreightService {
 	Optional<FreightDTO> convertToDto(Freight freight);
 
 
-	List<FreightDTO> convertToDtoList(List<Freight> page);
+	List<FreightDTO> convertToDtoList(List<Freight> list);
 
 
 

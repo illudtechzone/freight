@@ -27,7 +27,15 @@
             "fieldType": "Double"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "pricing",
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "pricing",
+            "otherEntityField": "id"
+        }
+    ],
     "changelogDate": "20190920043817",
     "entityTableName": "vehicle_look_up",
     "dto": "mapstruct",

@@ -146,8 +146,8 @@ public class FreightResource {
         return ResponseUtil.wrapOrNotFound(freightDto);
     }
     @PostMapping("/convertToList")
-    public ResponseEntity<List<FreightDTO>> createFreightDtoList(@RequestBody List<Freight> page){
-    	List<FreightDTO> pageDto = freightService.convertToDtoList(page);
+    public ResponseEntity<List<FreightDTO>> createFreightDtoList(@RequestBody List<Freight> list){
+    	List<FreightDTO> pageDto = freightService.convertToDtoList(list);
 		return ResponseEntity.ok().body(pageDto);
     	
     }

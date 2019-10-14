@@ -38,10 +38,6 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="driver_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
             <column name="company_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -26,6 +26,14 @@ vehicleLookupId Long,
 currentLocationGeopoint String,
 occupied Boolean
 }
+entity VehicleDocument{
+documentType String,
+document Blob,
+uploadTime Instant,
+validataionStartDate LocalDate,
+expiryDate LocalDate,
+isExpired Boolean
+}
 
 entity VehicleLookUp
 {
@@ -36,7 +44,47 @@ length Double,
 width Double,
 height Double
 }
+entity Pricing{
+ratePlan RatePlan,
+additionalDescription String,
+freeWaitingInMins Long,
+waitingChargeInMins Double,
+nightSurchargeInMins Double,
+basicRate Double
 
+
+}
+entity NormalPricing
+{
+ratePerKm Double,
+startLimitInKms Double,
+endLimitInKms Double,
+limitStatus LimitStatus
+
+}
+enum LimitStatus
+{
+BETWEEN,
+ABOVE
+}
+
+
+
+entity FulldayPricing
+{
+ratePerMinsAboveLimit Double,
+ratePerKm Double,
+startLimitInKms Double,
+endLimitInKms Double
+startLimitInHour Double,
+endLimitInHour Double,
+limitStatus LimitStatus
+}
+enum RatePlan
+{
+NORMAL,
+FULL_DAY
+}
 
 entity Freight
 { 
@@ -89,6 +137,22 @@ name String,
 email String,
 phoneNumber Long
 }
+entity Staff{
+staffIdpCode String,
+name String,
+email String,
+phoneNumber Long,
+type String
+}
+entity DriverDocument
+{
+documentType String,
+document Blob,
+uploadTime Instant,
+validataionStartDate LocalDate,
+expiryDate LocalDate,
+isExpired Boolean
+}
 entity Quotation
 {
 freightId Long,
@@ -98,12 +162,231 @@ amount Double,
 deliveryDate LocalDate
 }
 
-relationship ManyToOne{
-Vehicle{driver} to Driver
+entity VehicleStaff{
+type StaffType,
+staffId Long,
+priority Long
+
+}
+enum StaffType
+{
+DRIVER,
+STAFF
 }
 relationship OneToMany
 {
-Company{vehicle} to Vehicle{company}
+Company{vehicle} to Vehicle{company},
+Vehicle{vehicleDocuments} to VehicleDocument{vehicle},
+Driver{driverDocuments} to DriverDocument{driver},
+Company{drivers} to Driver{company},
+Company{staffs} to Staff{company},
+Vehicle{vehicleStaffs} to VehicleStaff{vehicle},
+Pricing{normalPricing} to NormalPricing,
+Pricing{fulldayPricing} to FulldayPricing
+
+
+
+}
+relationship ManyToOne
+{
+VehicleLookUp{pricing} to Pricing{vehicle},
+
+}
+service all with serviceImpl
+dto all with mapstruct
+paginate all with pagination
+
+entity Customer
+{
+customerIdpCode String,
+name String,
+email String,
+phoneNumber Long
+}
+
+entity Company
+{
+companyIdpCode String,
+name String,
+email String,
+phoneNumber Long,
+address String,
+locationAddress String,
+locationGeopoint String
+}
+
+entity Vehicle
+{
+registerNo String,
+vehicleLookupId Long,
+currentLocationGeopoint String,
+occupied Boolean
+}
+entity VehicleDocument{
+documentType String,
+document Blob,
+uploadTime Instant,
+validataionStartDate LocalDate,
+expiryDate LocalDate,
+isExpired Boolean
+}
+
+entity VehicleLookUp
+{
+name String,
+maxWeight Double,
+image Blob,
+length Double,
+width Double,
+height Double
+}
+entity Pricing{
+ratePlan RatePlan,
+additionalDescription String,
+freeWaitingInMins Long,
+waitingChargeInMins Double,
+nightSurchargeInMins Double,
+basicRate Double
+
+
+}
+entity NormalPricing
+{
+ratePerKm Double,
+startLimitInKms Double,
+endLimitInKms Double,
+limitStatus LimitStatus
+
+}
+enum LimitStatus
+{
+BETWEEN,
+ABOVE
+}
+
+
+
+entity FulldayPricing
+{
+ratePerMinsAboveLimit Double,
+ratePerKm Double,
+startLimitInKms Double,
+endLimitInKms Double
+startLimitInHour Double,
+endLimitInHour Double,
+limitStatus LimitStatus
+}
+enum RatePlan
+{
+NORMAL,
+FULL_DAY
+}
+
+entity Freight
+{ 
+type String,
+distance Long,
+pickupAddress String,
+pickupPlaceId String,
+destinationPlaceId String,
+destinationAddress String,
+pickupGeopoint String,
+destinationGeopoint String,
+customerId Long,
+requestedStatus RequestStatus,
+acceptedStatus FreightStatus,
+vehicleId Long,
+companyId Long,
+estimatedAmount Double,
+originalAmount Double,
+createdTime Instant,
+startTime Instant,
+destionationTime Instant,
+deliveryDate LocalDate,
+fragile Boolean,
+weight Double,
+length Double,
+width Double,
+height Double,
+trackingId String
+
+}
+
+enum FreightStatus
+{
+START,
+COMPLETE,
+NOT_STARTED
+}
+
+enum RequestStatus
+{
+REQUEST,
+CONFIRM,
+REJECT
+}
+
+entity Driver
+{
+driverIdpCode String,
+name String,
+email String,
+phoneNumber Long
+}
+entity Staff{
+staffIdpCode String,
+name String,
+email String,
+phoneNumber Long,
+type String
+}
+entity DriverDocument
+{
+documentType String,
+document Blob,
+uploadTime Instant,
+validataionStartDate LocalDate,
+expiryDate LocalDate,
+isExpired Boolean
+}
+entity Quotation
+{
+freightId Long,
+companyId Long,
+vehicleId Long,
+amount Double,
+deliveryDate LocalDate
+}
+
+entity VehicleStaff{
+type StaffType,
+staffId Long,
+priority Long
+
+}
+enum StaffType
+{
+DRIVER,
+STAFF
+}
+relationship OneToMany
+{
+Company{vehicle} to Vehicle{company},
+Vehicle{vehicleDocuments} to VehicleDocument{vehicle},
+Driver{driverDocuments} to DriverDocument{driver},
+Company{drivers} to Driver{company},
+Company{staffs} to Staff{company},
+Vehicle{vehicleStaffs} to VehicleStaff{vehicle},
+Pricing{normalPricing} to NormalPricing,
+Pricing{fulldayPricing} to FulldayPricing
+
+
+
+}
+relationship ManyToOne
+{
+VehicleLookUp{pricing} to Pricing{vehicle},
+
 }
 service all with serviceImpl
 dto all with mapstruct

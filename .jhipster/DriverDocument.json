@@ -1,0 +1,49 @@
+{
+    "name": "DriverDocument",
+    "fields": [
+        {
+            "fieldName": "documentType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "document",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "uploadTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "validataionStartDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "expiryDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "isExpired",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "driver",
+            "otherEntityRelationshipName": "driverDocuments",
+            "relationshipName": "driver",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191014072852",
+    "entityTableName": "driver_document",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}

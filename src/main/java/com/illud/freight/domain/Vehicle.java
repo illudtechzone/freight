@@ -1,6 +1,7 @@
 package com.illud.freight.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,6 +10,8 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -38,10 +41,12 @@ public class Vehicle implements Serializable {
     @Column(name = "occupied")
     private Boolean occupied;
 
-    @ManyToOne
-    @JsonIgnoreProperties("vehicles")
-    private Driver driver;
-
+    @OneToMany(mappedBy = "vehicle")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<VehicleDocument> vehicleDocuments = new HashSet<>();
+    @OneToMany(mappedBy = "vehicle")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<VehicleStaff> vehicleStaffs = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("vehicles")
     private Company company;
@@ -107,17 +112,54 @@ public class Vehicle implements Serializable {
         this.occupied = occupied;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public Set<VehicleDocument> getVehicleDocuments() {
+        return vehicleDocuments;
     }
 
-    public Vehicle driver(Driver driver) {
-        this.driver = driver;
+    public Vehicle vehicleDocuments(Set<VehicleDocument> vehicleDocuments) {
+        this.vehicleDocuments = vehicleDocuments;
         return this;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public Vehicle addVehicleDocuments(VehicleDocument vehicleDocument) {
+        this.vehicleDocuments.add(vehicleDocument);
+        vehicleDocument.setVehicle(this);
+        return this;
+    }
+
+    public Vehicle removeVehicleDocuments(VehicleDocument vehicleDocument) {
+        this.vehicleDocuments.remove(vehicleDocument);
+        vehicleDocument.setVehicle(null);
+        return this;
+    }
+
+    public void setVehicleDocuments(Set<VehicleDocument> vehicleDocuments) {
+        this.vehicleDocuments = vehicleDocuments;
+    }
+
+    public Set<VehicleStaff> getVehicleStaffs() {
+        return vehicleStaffs;
+    }
+
+    public Vehicle vehicleStaffs(Set<VehicleStaff> vehicleStaffs) {
+        this.vehicleStaffs = vehicleStaffs;
+        return this;
+    }
+
+    public Vehicle addVehicleStaffs(VehicleStaff vehicleStaff) {
+        this.vehicleStaffs.add(vehicleStaff);
+        vehicleStaff.setVehicle(this);
+        return this;
+    }
+
+    public Vehicle removeVehicleStaffs(VehicleStaff vehicleStaff) {
+        this.vehicleStaffs.remove(vehicleStaff);
+        vehicleStaff.setVehicle(null);
+        return this;
+    }
+
+    public void setVehicleStaffs(Set<VehicleStaff> vehicleStaffs) {
+        this.vehicleStaffs = vehicleStaffs;
     }
 
     public Company getCompany() {

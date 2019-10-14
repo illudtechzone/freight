@@ -20,11 +20,16 @@
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "driver",
+            "relationshipType": "one-to-many",
+            "otherEntityName": "vehicleDocument",
             "otherEntityRelationshipName": "vehicle",
-            "relationshipName": "driver",
-            "otherEntityField": "id"
+            "relationshipName": "vehicleDocuments"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "vehicleStaff",
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "vehicleStaffs"
         },
         {
             "relationshipType": "many-to-one",

@@ -36,6 +36,18 @@
             "otherEntityName": "vehicle",
             "otherEntityRelationshipName": "company",
             "relationshipName": "vehicle"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "driver",
+            "otherEntityRelationshipName": "company",
+            "relationshipName": "drivers"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "staff",
+            "otherEntityRelationshipName": "company",
+            "relationshipName": "staffs"
         }
     ],
     "changelogDate": "20190920043815",

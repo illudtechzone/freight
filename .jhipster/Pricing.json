@@ -1,0 +1,60 @@
+{
+    "name": "Pricing",
+    "fields": [
+        {
+            "fieldName": "ratePlan",
+            "fieldType": "RatePlan",
+            "fieldValues": "NORMAL,FULL_DAY"
+        },
+        {
+            "fieldName": "additionalDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "freeWaitingInMins",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "waitingChargeInMins",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "nightSurchargeInMins",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "basicRate",
+            "fieldType": "Double"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "normalPricing",
+            "otherEntityRelationshipName": "pricing",
+            "relationshipName": "normalPricing"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "fulldayPricing",
+            "otherEntityRelationshipName": "pricing",
+            "relationshipName": "fulldayPricing"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "vehicleLookUp",
+            "otherEntityRelationshipName": "pricing",
+            "relationshipName": "vehicle"
+        }
+    ],
+    "changelogDate": "20191014072846",
+    "entityTableName": "pricing",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}

@@ -18,8 +18,6 @@ public class VehicleDTO implements Serializable {
     private Boolean occupied;
 
 
-    private Long driverId;
-
     private Long companyId;
 
     public Long getId() {
@@ -62,14 +60,6 @@ public class VehicleDTO implements Serializable {
         this.occupied = occupied;
     }
 
-    public Long getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
-    }
-
     public Long getCompanyId() {
         return companyId;
     }
@@ -107,7 +97,6 @@ public class VehicleDTO implements Serializable {
             ", vehicleLookupId=" + getVehicleLookupId() +
             ", currentLocationGeopoint='" + getCurrentLocationGeopoint() + "'" +
             ", occupied='" + isOccupied() + "'" +
-            ", driver=" + getDriverId() +
             ", company=" + getCompanyId() +
             "}";
     }

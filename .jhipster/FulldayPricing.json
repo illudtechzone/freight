@@ -1,0 +1,52 @@
+{
+    "name": "FulldayPricing",
+    "fields": [
+        {
+            "fieldName": "ratePerMinsAboveLimit",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "ratePerKm",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "startLimitInKms",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "endLimitInKms",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "startLimitInHour",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "endLimitInHour",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "limitStatus",
+            "fieldType": "LimitStatus",
+            "fieldValues": "BETWEEN,ABOVE"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "pricing",
+            "otherEntityName": "pricing",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191014072848",
+    "entityTableName": "fullday_pricing",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}

@@ -18,6 +18,8 @@ public class DriverDTO implements Serializable {
     private Long phoneNumber;
 
 
+    private Long companyId;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class DriverDTO implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -87,6 +97,7 @@ public class DriverDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", email='" + getEmail() + "'" +
             ", phoneNumber=" + getPhoneNumber() +
+            ", company=" + getCompanyId() +
             "}";
     }
 }

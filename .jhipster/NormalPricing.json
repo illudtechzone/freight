@@ -1,0 +1,40 @@
+{
+    "name": "NormalPricing",
+    "fields": [
+        {
+            "fieldName": "ratePerKm",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "startLimitInKms",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "endLimitInKms",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "limitStatus",
+            "fieldType": "LimitStatus",
+            "fieldValues": "BETWEEN,ABOVE"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "pricing",
+            "otherEntityName": "pricing",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191014072847",
+    "entityTableName": "normal_pricing",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "freight",
+    "applications": "*",
+    "microserviceName": "freight"
+}

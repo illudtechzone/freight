@@ -25,6 +25,8 @@ public class VehicleLookUpDTO implements Serializable {
     private Double height;
 
 
+    private Long pricingId;
+
     public Long getId() {
         return id;
     }
@@ -89,6 +91,14 @@ public class VehicleLookUpDTO implements Serializable {
         this.height = height;
     }
 
+    public Long getPricingId() {
+        return pricingId;
+    }
+
+    public void setPricingId(Long pricingId) {
+        this.pricingId = pricingId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -120,6 +130,7 @@ public class VehicleLookUpDTO implements Serializable {
             ", length=" + getLength() +
             ", width=" + getWidth() +
             ", height=" + getHeight() +
+            ", pricing=" + getPricingId() +
             "}";
     }
 }

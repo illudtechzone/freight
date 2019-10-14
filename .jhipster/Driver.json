@@ -18,7 +18,21 @@
             "fieldType": "Long"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "driverDocument",
+            "otherEntityRelationshipName": "driver",
+            "relationshipName": "driverDocuments"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "company",
+            "otherEntityRelationshipName": "drivers",
+            "relationshipName": "company",
+            "otherEntityField": "id"
+        }
+    ],
     "changelogDate": "20190920043819",
     "entityTableName": "driver",
     "dto": "mapstruct",

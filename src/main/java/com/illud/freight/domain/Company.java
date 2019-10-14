@@ -52,6 +52,12 @@ public class Company implements Serializable {
     @OneToMany(mappedBy = "company")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Vehicle> vehicles = new HashSet<>();
+    @OneToMany(mappedBy = "company")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Driver> drivers = new HashSet<>();
+    @OneToMany(mappedBy = "company")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Staff> staffs = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -175,6 +181,56 @@ public class Company implements Serializable {
 
     public void setVehicles(Set<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public Set<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public Company drivers(Set<Driver> drivers) {
+        this.drivers = drivers;
+        return this;
+    }
+
+    public Company addDrivers(Driver driver) {
+        this.drivers.add(driver);
+        driver.setCompany(this);
+        return this;
+    }
+
+    public Company removeDrivers(Driver driver) {
+        this.drivers.remove(driver);
+        driver.setCompany(null);
+        return this;
+    }
+
+    public void setDrivers(Set<Driver> drivers) {
+        this.drivers = drivers;
+    }
+
+    public Set<Staff> getStaffs() {
+        return staffs;
+    }
+
+    public Company staffs(Set<Staff> staff) {
+        this.staffs = staff;
+        return this;
+    }
+
+    public Company addStaffs(Staff staff) {
+        this.staffs.add(staff);
+        staff.setCompany(this);
+        return this;
+    }
+
+    public Company removeStaffs(Staff staff) {
+        this.staffs.remove(staff);
+        staff.setCompany(null);
+        return this;
+    }
+
+    public void setStaffs(Set<Staff> staff) {
+        this.staffs = staff;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
