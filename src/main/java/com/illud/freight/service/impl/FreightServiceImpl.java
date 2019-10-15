@@ -495,14 +495,11 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
 
 	@Override
 	public List<FreightDTO> convertToDtoList(List<Freight> list) {
-		//List<FreightDTO> dtos = new ArrayList<>();
-		//list.forEach(data->{
-		//	dtos.add(freightMapper.toDto(data));
-		//});
-		 
-		
 		List<FreightDTO> dtos = new ArrayList<>();
-		
+		list.forEach(data->{
+			dtos.add(freightMapper.toDto(data));
+		});
+		 
 		return dtos;
 		
 	}

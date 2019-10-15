@@ -1,12 +1,14 @@
 package com.illud.freight.service;
 
 import com.illud.freight.client.activiti_rest_api.model.freight.TransportOwnerResponse;
+import com.illud.freight.domain.Quotation;
 import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.dto.QuotationDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -55,6 +57,10 @@ public interface QuotationService {
      * @return the list of entities
      */
     Page<QuotationDTO> search(String query, Pageable pageable);
+
+	Optional<QuotationDTO> createQuotationDto(Quotation quotation);
+
+	List<QuotationDTO> createQuotationsDtoList(List<Quotation> quotations);
     
     //void sendQuatation(String taskId,QuotationDTO response);
 

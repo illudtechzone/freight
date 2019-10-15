@@ -1,5 +1,6 @@
 package com.illud.freight.web.rest;
 import com.illud.freight.client.activiti_rest_api.model.freight.TransportOwnerResponse;
+import com.illud.freight.domain.Quotation;
 import com.illud.freight.service.QuotationService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -137,10 +138,18 @@ public class QuotationResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/quotations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
-    
-
-    
-	
-    
+    @GetMapping("/convertdto")
+    public ResponseEntity<QuotationDTO> createQuotationsDto(@RequestBody Quotation quotation ){
+    	log.debug("<<<<<<<< convert to quotations dto >>>>>>", quotation);
+    	Optional<QuotationDTO> optDto =quotationService.createQuotationDto(quotation);
+		return ResponseUtil.wrapOrNotFound(optDto);
+    	
+    }
+    @GetMapping("/convertdtolist")
+    public ResponseEntity<List<QuotationDTO>> createQuotationsDtoList(@RequestBody List<Quotation> quotations){
+    	log.debug("<<<<<< convert to quotatins dtoList >>>>>>",quotations);
+    	List<QuotationDTO> listDtos = quotationService.createQuotationsDtoList(quotations);
+		return ResponseEntity.ok().body(listDtos);
+    	
+    }
 }

@@ -120,6 +120,22 @@ public class QuotationServiceImpl implements QuotationService {
         return quotationSearchRepository.search(queryStringQuery(query), pageable)
             .map(quotationMapper::toDto);
     }
+
+	@Override
+	public Optional<QuotationDTO> createQuotationDto(Quotation quotation) {
+		log.debug("<<<<<< createQuotationDto >>>>>>",quotation);
+		
+		return Optional.of(quotation).map(quotationMapper::toDto);
+	}
+
+	@Override
+	public List<QuotationDTO> createQuotationsDtoList(List<Quotation> quotations) {
+		log.debug("<<<< createQuotationsDtoList >>>>",quotations);
+		
+		
+		
+		return quotationMapper.toDto(quotations);
+	}
     
 
 	/*
