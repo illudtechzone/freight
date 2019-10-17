@@ -2,6 +2,7 @@ package com.illud.freight.service.impl;
 
 import com.illud.freight.service.CompanyService;
 import com.illud.freight.domain.Company;
+import com.illud.freight.domain.Customer;
 import com.illud.freight.repository.CompanyRepository;
 import com.illud.freight.repository.search.CompanySearchRepository;
 import com.illud.freight.service.dto.CompanyDTO;
@@ -110,4 +111,16 @@ public class CompanyServiceImpl implements CompanyService {
         return companySearchRepository.search(queryStringQuery(query), pageable)
             .map(companyMapper::toDto);
     }
+
+	@Override
+	public Optional<CompanyDTO> createcompanyIfnotexist(CompanyDTO companyDTO) {
+		log.debug("<<<<<< createcompanyIfnotexist >>>>>>",companyDTO);
+		Optional<Company> company = companyRepository.findByCompanyIdpCode(companyDTO.getCompanyIdpCode());
+		if(company.isPresent()) {
+			return company.map(companyMapper::toDto);
+		}
+		else {
+			return Optional.of(save(companyDTO));
+		}
+	}
 }

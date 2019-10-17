@@ -151,7 +151,6 @@ public class FreightResource {
 		return ResponseEntity.ok().body(pageDto);
     	
     }
-
     @GetMapping("/freight/{trackingId}")
     public ResponseEntity<FreightDTO> getFreightByTrackingId(@PathVariable String  trackingId){
     	

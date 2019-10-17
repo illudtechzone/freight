@@ -53,4 +53,6 @@ public interface CompanyService {
      * @return the list of entities
      */
     Page<CompanyDTO> search(String query, Pageable pageable);
+
+	Optional<CompanyDTO> createcompanyIfnotexist(CompanyDTO companyDTO);
 }
