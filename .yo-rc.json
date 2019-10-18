@@ -39,12 +39,15 @@
   },
   "generator-jhipster-swagger-cli": {
     "promptValues": {
-      "inputSpec": "/home/karthi/apache-tomcat-9.0.21/webapps/activiti-rest/docs/activiti.json",
-      "cliName": "activitiRestApi"
+      "inputSpec": "http://35.232.29.128:8085/v2/api-docs",
+      "cliName": "freight"
     },
     "apis": {
       "activitiRestApi": {
         "spec": "/home/karthi/apache-tomcat-9.0.21/webapps/activiti-rest/docs/activiti.json"
+      },
+      "freight": {
+        "spec": "http://35.232.29.128:8085/v2/api-docs"
       }
     }
   }
