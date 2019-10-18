@@ -90,8 +90,7 @@ public class FreightServiceImpl implements FreightService {
     @Autowired
     VehicleRepository vehicleRepository;
     
-    @Autowired
-    VehicleDTO vehicleDTO;
+   
     
     @Autowired
     VehicleServiceImpl vehicleServiceImpl;
