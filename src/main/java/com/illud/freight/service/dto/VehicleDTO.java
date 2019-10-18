@@ -17,7 +17,6 @@ public class VehicleDTO implements Serializable {
 
     private Boolean occupied;
 
-
     private Long companyId;
 
     public Long getId() {

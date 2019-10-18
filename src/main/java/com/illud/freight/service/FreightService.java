@@ -82,6 +82,8 @@ public interface FreightService {
 
 	List<FreightDTO> convertToDtoList(List<Freight> list);
 
+	Optional<FreightDTO> assumeFreightAndVehicle(FreightDTO freightDTO, Long vehicleId);
+
 
 
 

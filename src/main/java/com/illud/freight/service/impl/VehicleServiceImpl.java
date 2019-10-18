@@ -131,14 +131,11 @@ public class VehicleServiceImpl implements VehicleService {
 	public List<VehicleDTO> convertToDtoList(List<Vehicle> vehicle) {
 		log.debug("<<<< convert to entitylist to toDto >>>>",vehicle);
 		List<VehicleDTO> listDto = new ArrayList<>();
-		//vehicle.forEach(v->{
-		//	listDto.add(vehicleMapper.toDto(data));});
 		
 		for (Vehicle v : vehicle) {
 			listDto.add(vehicleMapper.toDto(v));
 		}
 		return listDto;
 	}
-
 	
 }

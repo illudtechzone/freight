@@ -60,4 +60,6 @@ public interface VehicleService {
 	Optional<VehicleDTO> convertToDto(Vehicle vehicle);
 
 	List<VehicleDTO> convertToDtoList(List<Vehicle> list);
+
+
 }

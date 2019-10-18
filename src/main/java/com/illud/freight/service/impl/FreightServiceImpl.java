@@ -16,13 +16,16 @@ import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
 import com.illud.freight.client.activiti_rest_api.model.freight.DefaultInfo;
 import com.illud.freight.domain.Freight;
 import com.illud.freight.domain.Quotation;
+import com.illud.freight.domain.Vehicle;
 import com.illud.freight.domain.enumeration.FreightStatus;
 import com.illud.freight.domain.enumeration.RequestStatus;
 import com.illud.freight.repository.FreightRepository;
 import com.illud.freight.repository.QuotationRepository;
+import com.illud.freight.repository.VehicleRepository;
 import com.illud.freight.repository.search.FreightSearchRepository;
 import com.illud.freight.service.dto.FreightDTO;
 import com.illud.freight.service.dto.QuotationDTO;
+import com.illud.freight.service.dto.VehicleDTO;
 import com.illud.freight.service.mapper.FreightMapper;
 import com.illud.freight.service.mapper.QuotationMapper;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
@@ -83,6 +86,15 @@ public class FreightServiceImpl implements FreightService {
     
     @Autowired
     private ProcessInstancesApi processInstanceApi;
+    
+    @Autowired
+    VehicleRepository vehicleRepository;
+    
+    @Autowired
+    VehicleDTO vehicleDTO;
+    
+    @Autowired
+    VehicleServiceImpl vehicleServiceImpl;
 
     public FreightServiceImpl(FreightRepository freightRepository, FreightMapper freightMapper, FreightSearchRepository freightSearchRepository, QuotationMapper quotationMapper) {
         this.freightRepository = freightRepository;
@@ -512,8 +524,21 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
 		}
 		  Freight freight = freightMapper.toEntity(freightDTO);
 		  freight = freightRepository.save(freight);
+		  freightSearchRepository.save(freight);
 		  FreightDTO result = freightMapper.toDto(freight);
 		return  result;
+	}
+
+	@Override
+	public Optional<FreightDTO> assumeFreightAndVehicle(FreightDTO freightDTO, Long vehicleId) {
+		log.debug("<<<<<<<< assumeFreightAndVehicle >>>>>>>",freightDTO,vehicleId);
+		freightDTO.setVehicleId(vehicleId);
+		Optional<FreightDTO> opt = Optional.of(update(freightDTO));
+		VehicleDTO vehicleDTO=vehicleServiceImpl.findOne(vehicleId).get();
+		//vehicleRepository.getOne(vehicleId);
+		vehicleDTO.setOccupied(true);
+		vehicleServiceImpl.save(vehicleDTO);
+		return opt;
 	}
 	
 
