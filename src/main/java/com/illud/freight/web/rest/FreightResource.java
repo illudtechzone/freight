@@ -157,7 +157,7 @@ public class FreightResource {
     	Optional<FreightDTO> freightDTO = freightService.findByTrackingId(trackingId);
     	 return ResponseUtil.wrapOrNotFound(freightDTO);
     }
-    @PostMapping("/updatefreightandvehicleforVehicleidorfreight/{freightDto}/{vehicleid}")
+    @PostMapping("/updatefreightandvehicleforVehicleidorfreight/{vehicleid}")
     public ResponseEntity<FreightDTO> assumeVehicle(@RequestBody FreightDTO freightDTO,@PathVariable Long vehicleId){
     	log.debug("<<<<< updatefreightbyVehicleid to get vehicleId >>>>>",freightDTO,vehicleId);
     	Optional<FreightDTO> opt = freightService.assumeFreightAndVehicle(freightDTO,vehicleId);
