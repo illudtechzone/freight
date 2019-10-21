@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.domain.Driver;
 import com.illud.freight.service.DriverService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -142,5 +143,14 @@ public class DriverResource {
 		return ResponseUtil.wrapOrNotFound(result);
     	
     }
+	/*
+	 * @PostMapping("/createDto") public ResponseEntity<DriverDTO>
+	 * createDto(@RequestBody Driver driver){
+	 * log.debug("<<<< create dto >>>>>",driver);
+	 * 
+	 * return ;
+	 * 
+	 * }
+	 */
 
 }
