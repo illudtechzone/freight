@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -110,4 +112,20 @@ public class DriverDocumentServiceImpl implements DriverDocumentService {
         return driverDocumentSearchRepository.search(queryStringQuery(query), pageable)
             .map(driverDocumentMapper::toDto);
     }
+
+	@Override
+	public Optional<DriverDocumentDTO> convertToDTO(DriverDocument driverDocument) {
+		log.debug("<<<< convertToDto >>>>>",driverDocument);
+		return Optional.of(driverDocument).map(driverDocumentMapper::toDto);
+	}
+
+	@Override
+	public List<DriverDocumentDTO> convertToDtoList(List<DriverDocument> list) {
+		log.debug("<<<<<< convertToDtoList in impl >>>>",list);
+		List<DriverDocumentDTO> docList = new ArrayList<DriverDocumentDTO>();
+		list.forEach(x ->{
+			docList.add(driverDocumentMapper.toDto(x));
+		});
+		return docList;
+	}
 }

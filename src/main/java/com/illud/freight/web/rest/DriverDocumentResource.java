@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.domain.DriverDocument;
 import com.illud.freight.service.DriverDocumentService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -134,6 +135,20 @@ public class DriverDocumentResource {
         Page<DriverDocumentDTO> page = driverDocumentService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/driver-documents");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    @GetMapping("/convertTodto")
+    public ResponseEntity<DriverDocumentDTO> convertToDto(@RequestBody DriverDocument driverDocument){
+    	log.debug("<<<<< convertToDto in rest >>>>>>",driverDocument);
+    	Optional<DriverDocumentDTO> opt =driverDocumentService.convertToDTO(driverDocument);
+		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+    @GetMapping("/convertToDtolist")
+    public ResponseEntity<List<DriverDocumentDTO>> convertToDtoList(@RequestBody List<DriverDocument> list){
+    	log.debug("<<<<< convertToDtoList in rest >>>>>",list);
+    	List<DriverDocumentDTO> page = driverDocumentService.convertToDtoList(list);
+		return ResponseEntity.ok().body(page);
+    	
     }
 
 }

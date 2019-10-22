@@ -160,7 +160,7 @@ public class FreightResource {
     @PostMapping("/updatefreightandvehicleforfreightorvehicleid/{vehicleId}")
     public ResponseEntity<FreightDTO> assignVehicle(@RequestBody FreightDTO freightDTO,@PathVariable Long vehicleId){
     	log.debug("<<<<< updatefreightbyVehicleid to get vehicleId >>>>>",freightDTO,vehicleId);
-    	Optional<FreightDTO> opt = freightService.assumeFreightAndVehicle(freightDTO,vehicleId);
+    	Optional<FreightDTO> opt = freightService.assignFreightAndVehicle(freightDTO,vehicleId);
 		return ResponseUtil.wrapOrNotFound(opt);
     	
     }

@@ -1,10 +1,12 @@
 package com.illud.freight.service;
 
+import com.illud.freight.domain.DriverDocument;
 import com.illud.freight.service.dto.DriverDocumentDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,4 +55,8 @@ public interface DriverDocumentService {
      * @return the list of entities
      */
     Page<DriverDocumentDTO> search(String query, Pageable pageable);
+
+	Optional<DriverDocumentDTO> convertToDTO(DriverDocument driverDocument);
+
+	List<DriverDocumentDTO> convertToDtoList(List<DriverDocument> list);
 }

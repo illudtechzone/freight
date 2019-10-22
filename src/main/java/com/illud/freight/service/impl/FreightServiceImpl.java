@@ -529,7 +529,7 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
 	}
 
 	@Override
-	public Optional<FreightDTO> assumeFreightAndVehicle(FreightDTO freightDTO, Long vehicleId) {
+	public Optional<FreightDTO> assignFreightAndVehicle(FreightDTO freightDTO, Long vehicleId) {
 		log.debug("<<<<<<<< assumeFreightAndVehicle >>>>>>>",freightDTO,vehicleId);
 		freightDTO.setVehicleId(vehicleId);
 		Optional<FreightDTO> opt = Optional.of(update(freightDTO));
