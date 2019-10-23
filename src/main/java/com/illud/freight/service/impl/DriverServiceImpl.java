@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -129,5 +130,19 @@ public class DriverServiceImpl implements DriverService {
 		else {
 			return Optional.of(save(driverDTO));
 		}
+	}
+
+	@Override
+	public Optional<DriverDTO> createDto(Driver driver) {
+		log.debug("<<<<<<<<< create dto in impl>>>>>",driver);
+		
+		return Optional.of(driver).map(driverMapper::toDto);
+	}
+
+	@Override
+	public List<DriverDTO> createDtoList(List<Driver> driver) {
+		log.debug("<<<<<<< createDtoList >>>>>>>",driver);
+		
+		return driverMapper.toDto(driver);
 	}
 }
