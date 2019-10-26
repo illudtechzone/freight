@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.domain.VehicleLookUp;
 import com.illud.freight.service.VehicleLookUpService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -134,6 +135,20 @@ public class VehicleLookUpResource {
         Page<VehicleLookUpDTO> page = vehicleLookUpService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/vehicle-look-ups");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    @PostMapping("/createDto/vehicle-look-ups")
+    public ResponseEntity<VehicleLookUpDTO> createDto(@RequestBody VehicleLookUp vehLookUp){
+    	log.debug("<<<<<< createDto in rest >>>>>",vehLookUp);
+    	Optional<VehicleLookUpDTO> opt = vehicleLookUpService.createVehicleLookUpDto(vehLookUp);
+		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+    @PostMapping("/createDtoList/vehicle-look-ups")
+    public ResponseEntity<List<VehicleLookUpDTO>> createDtoList(@RequestBody List<VehicleLookUp> vehLookUpList){
+    	log.debug("<<<<< createDtoList >>>>>>",vehLookUpList);
+    	List<VehicleLookUpDTO> lists =vehicleLookUpService.createDtoList(vehLookUpList);
+		return ResponseEntity.ok().body(lists);
+    	
     }
 
 }
