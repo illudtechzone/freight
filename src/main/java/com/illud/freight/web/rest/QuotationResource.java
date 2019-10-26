@@ -138,14 +138,14 @@ public class QuotationResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/quotations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    @GetMapping("/convertdto")
+    @PostMapping("/convertdto/quotations")
     public ResponseEntity<QuotationDTO> createQuotationsDto(@RequestBody Quotation quotation ){
     	log.debug("<<<<<<<< convert to quotations dto >>>>>>", quotation);
     	Optional<QuotationDTO> optDto =quotationService.createQuotationDto(quotation);
 		return ResponseUtil.wrapOrNotFound(optDto);
     	
     }
-    @GetMapping("/convertdtolist")
+    @PostMapping("/convertdtolist/quotations")
     public ResponseEntity<List<QuotationDTO>> createQuotationsDtoList(@RequestBody List<Quotation> quotations){
     	log.debug("<<<<<< convert to quotatins dtoList >>>>>>",quotations);
     	List<QuotationDTO> listDtos = quotationService.createQuotationsDtoList(quotations);
