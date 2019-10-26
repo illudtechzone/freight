@@ -141,5 +141,17 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 	}
 
+	@Override
+	public Optional<CustomerDTO> createCustomerDto(Customer customer) {
+		log.debug("<<<<<<< createCustomerDto >>>>>>>>",customer);
+		return Optional.of(customer).map(customerMapper::toDto);
+	}
+
+	@Override
+	public List<CustomerDTO> createDtoList(List<Customer> customers) {
+		log.debug("<<<<<<< createDtoList >>>>>>",customers);
+		return customerMapper.toDto(customers);
+	}
+
 	
 }

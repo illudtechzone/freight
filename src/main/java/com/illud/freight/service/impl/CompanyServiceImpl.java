@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -123,4 +124,21 @@ public class CompanyServiceImpl implements CompanyService {
 			return Optional.of(save(companyDTO));
 		}
 	}
+
+	@Override
+	public Optional<CompanyDTO> createDto(Company company) {
+		log.debug("<<<<<< createDto >>>>",company);
+		return Optional.of(company).map(companyMapper::toDto);
+	}
+
+	@Override
+	public List<CompanyDTO> createDtoList(List<Company> companies) {
+		log.debug("<<<<< createDtoList >>>>>>",companies);
+		
+		return companyMapper.toDto(companies);
+	}
+	
+	
+
+	
 }
