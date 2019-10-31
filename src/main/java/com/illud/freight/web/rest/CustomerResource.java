@@ -1,5 +1,6 @@
 package com.illud.freight.web.rest;
 import com.illud.freight.client.activiti_rest_api.model.freight.CustomerStatus;
+import com.illud.freight.domain.Customer;
 import com.illud.freight.service.CustomerService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -142,6 +143,19 @@ public class CustomerResource {
     	Optional<CustomerDTO> result = customerService.createcustomerIfnotExist(customerDTO);
 		return ResponseUtil.wrapOrNotFound(result);
     	
+    }
+    @PostMapping("/createDto/customer")
+    public ResponseEntity<CustomerDTO> createDto(@RequestBody Customer customer){
+    	log.debug("<<<<<< create dto in rest >>>>>",customer);
+    	Optional<CustomerDTO> opt= customerService.createCustomerDto(customer);
+		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+    @PostMapping("/creteDtoList/customer")
+    public ResponseEntity<List<CustomerDTO>> createDtoList(@RequestBody List<Customer> customers){
+    	log.debug("<<<< createDtoList in rest >>>>",customers);
+    	List<CustomerDTO> listDto = customerService.createDtoList(customers);
+		return ResponseEntity.ok().body(listDto);
     }
 
   

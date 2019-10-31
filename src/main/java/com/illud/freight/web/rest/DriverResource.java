@@ -149,14 +149,21 @@ public class DriverResource {
 
 	}
 
-	/*
-	 * @PostMapping("/createDto") public ResponseEntity<DriverDTO>
-	 * createDto(@RequestBody Driver driver) { log.debug("<<<< create dto >>>>>",
-	 * driver);
-	 * 
-	 * return;
-	 * 
-	 * }
-	 */
+	
+	@PostMapping("/createDto/driver")
+	public ResponseEntity<DriverDTO> createDto(@RequestBody Driver driver) {
+		log.debug("<<<< create dto >>>>>", driver);
+		Optional<DriverDTO> opt = driverService.createDto(driver);
+		return ResponseUtil.wrapOrNotFound(opt);
+
+	}
+	@PostMapping("/createDtoList/driver")
+	public ResponseEntity<List<DriverDTO>> createDtoList(@RequestBody List<Driver> driver){
+		log.debug("<<<<< createDtoList in rest >>>>>",driver);
+		List<DriverDTO> driverdtolist = driverService.createDtoList(driver);
+		return ResponseEntity.ok().body(driverdtolist);
+		
+	}
+	 
 
 }

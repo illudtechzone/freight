@@ -1,4 +1,6 @@
 package com.illud.freight.web.rest;
+
+import com.illud.freight.domain.Company;
 import com.illud.freight.service.CompanyService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -140,6 +142,20 @@ public class CompanyResource {
     	log.debug("<<<<<< createCompanyIfNotExist >>>>>>",companyDTO);
     	Optional<CompanyDTO> opt = companyService.createcompanyIfnotexist(companyDTO);
 		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+    @PostMapping("/companyDto/company")
+    public ResponseEntity<CompanyDTO> createDto(@RequestBody Company company){
+    	log.debug("<<<< createDto >>>>>",company);
+    	Optional<CompanyDTO> opt = companyService.createDto(company);
+		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+    @PostMapping("/companyDtoList/company")
+    public ResponseEntity<List<CompanyDTO>> createDtoList(@RequestBody List<Company> companies){
+    	log.debug("<<<<<< createDtoList >>>>>>>>>>",companies);
+    	List<CompanyDTO> listDto = companyService.createDtoList(companies);
+		return ResponseEntity.ok().body(listDto);
     	
     }
 

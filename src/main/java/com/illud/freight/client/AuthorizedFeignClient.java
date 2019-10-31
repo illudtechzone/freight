@@ -2,6 +2,7 @@ package com.illud.freight.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
+
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;

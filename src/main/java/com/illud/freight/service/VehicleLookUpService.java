@@ -1,10 +1,12 @@
 package com.illud.freight.service;
 
+import com.illud.freight.domain.VehicleLookUp;
 import com.illud.freight.service.dto.VehicleLookUpDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,4 +55,8 @@ public interface VehicleLookUpService {
      * @return the list of entities
      */
     Page<VehicleLookUpDTO> search(String query, Pageable pageable);
+
+	Optional<VehicleLookUpDTO> createVehicleLookUpDto(VehicleLookUp vehLookUp);
+
+	List<VehicleLookUpDTO> createDtoList(List<VehicleLookUp> vehLookUpList);
 }

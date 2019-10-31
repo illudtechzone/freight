@@ -1,4 +1,5 @@
 package com.illud.freight.web.rest;
+import com.illud.freight.domain.VehicleDocument;
 import com.illud.freight.service.VehicleDocumentService;
 import com.illud.freight.web.rest.errors.BadRequestAlertException;
 import com.illud.freight.web.rest.util.HeaderUtil;
@@ -134,6 +135,20 @@ public class VehicleDocumentResource {
         Page<VehicleDocumentDTO> page = vehicleDocumentService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/vehicle-documents");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    @PostMapping("/createVehicledocumentDto")
+    public ResponseEntity<VehicleDocumentDTO> createVehicleDocumentDto(@RequestBody VehicleDocument vehDocument){
+    	log.debug("<<<<<<<<<< createVehicleDocumentDto >>>>>>",vehDocument);
+    	Optional<VehicleDocumentDTO> opt = vehicleDocumentService.createVehicleDocumentDto(vehDocument);
+		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+    @PostMapping("/createVehicledocumentDtoList")
+    public ResponseEntity<List<VehicleDocumentDTO>> createVehicleDocumentDtoList(@RequestBody List<VehicleDocument> vehDocuments){
+    	log.debug("<<<<< createVehicleDocumentDtoList >>>>>",vehDocuments);
+    	List<VehicleDocumentDTO> listDto = vehicleDocumentService.createVehicleDocumentDtoList(vehDocuments);
+		return ResponseEntity.ok().body(listDto);
+    	
     }
 
 }

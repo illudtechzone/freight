@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -110,4 +111,18 @@ public class VehicleLookUpServiceImpl implements VehicleLookUpService {
         return vehicleLookUpSearchRepository.search(queryStringQuery(query), pageable)
             .map(vehicleLookUpMapper::toDto);
     }
+
+	@Override
+	public Optional<VehicleLookUpDTO> createVehicleLookUpDto(VehicleLookUp vehLookUp) {
+		log.debug("<<<<<< createVehicleLookUpDto >>>>>",vehLookUp);
+		
+		return Optional.of(vehLookUp).map(vehicleLookUpMapper::toDto);
+	}
+
+	@Override
+	public List<VehicleLookUpDTO> createDtoList(List<VehicleLookUp> vehLookUpList) {
+		log.debug("<<<<<< createVehicleLookUpDtoList >>>>>",vehLookUpList);
+		
+		return vehicleLookUpMapper.toDto(vehLookUpList);
+	}
 }
