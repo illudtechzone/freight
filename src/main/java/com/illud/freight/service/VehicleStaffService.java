@@ -53,4 +53,6 @@ public interface VehicleStaffService {
      * @return the list of entities
      */
     Page<VehicleStaffDTO> search(String query, Pageable pageable);
+
+	Optional<VehicleStaffDTO> AssignDriverAsVehicleStaffOfAnVehicle(Long staffId, Long vehicleId);
 }

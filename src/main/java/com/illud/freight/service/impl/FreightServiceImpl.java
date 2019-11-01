@@ -533,6 +533,7 @@ public ResponseEntity<DataResponse> getHistoricTaskusingProcessInstanceIdAndName
 		log.debug("<<<<<<<< assumeFreightAndVehicle >>>>>>>",freightDTO,vehicleId);
 		freightDTO.setVehicleId(vehicleId);
 		Optional<FreightDTO> opt = Optional.of(update(freightDTO));
+		
 		VehicleDTO vehicleDTO=vehicleServiceImpl.findOne(vehicleId).get();
 		//vehicleRepository.getOne(vehicleId);
 		vehicleDTO.setOccupied(true);

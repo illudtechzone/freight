@@ -2,13 +2,16 @@ package com.illud.freight.service.impl;
 
 import com.illud.freight.service.VehicleStaffService;
 import com.illud.freight.domain.VehicleStaff;
+import com.illud.freight.domain.enumeration.StaffType;
 import com.illud.freight.repository.VehicleStaffRepository;
 import com.illud.freight.repository.search.VehicleStaffSearchRepository;
+import com.illud.freight.service.dto.DriverDTO;
+import com.illud.freight.service.dto.VehicleDTO;
 import com.illud.freight.service.dto.VehicleStaffDTO;
 import com.illud.freight.service.mapper.VehicleStaffMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,12 @@ public class VehicleStaffServiceImpl implements VehicleStaffService {
     private final VehicleStaffMapper vehicleStaffMapper;
 
     private final VehicleStaffSearchRepository vehicleStaffSearchRepository;
+    
+    @Autowired
+    VehicleServiceImpl vehicleServiceImpl;
+    
+    @Autowired
+    DriverServiceImpl driServiceimpl;
 
     public VehicleStaffServiceImpl(VehicleStaffRepository vehicleStaffRepository, VehicleStaffMapper vehicleStaffMapper, VehicleStaffSearchRepository vehicleStaffSearchRepository) {
         this.vehicleStaffRepository = vehicleStaffRepository;
@@ -110,4 +119,16 @@ public class VehicleStaffServiceImpl implements VehicleStaffService {
         return vehicleStaffSearchRepository.search(queryStringQuery(query), pageable)
             .map(vehicleStaffMapper::toDto);
     }
+    @Override
+	public Optional<VehicleStaffDTO> AssignDriverAsVehicleStaffOfAnVehicle(Long driverId,
+			Long vehicleId) {
+    	log.debug("<<<<< AssignDriverAsVehicleStaffOfAnVehicle >>>>",driverId,vehicleId);
+    	
+    	VehicleStaffDTO vehStaffDTO = new VehicleStaffDTO();
+    	vehStaffDTO.setVehicleId(vehicleId);
+    	vehStaffDTO.setStaffId(driverId);
+    	vehStaffDTO.setType(StaffType.DRIVER);
+    	return Optional.of(save(vehStaffDTO));
+		
+	}
 }

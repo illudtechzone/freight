@@ -135,5 +135,14 @@ public class VehicleStaffResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/vehicle-staffs");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    
+    @PostMapping("/assignvehiclestaff/{vehicleId}/{driverId}")
+    public ResponseEntity<VehicleStaffDTO> assignVehicleStaffForDriver(@PathVariable Long staffId,@PathVariable Long vehicleId){
+    	log.debug("<<<<<<< assignVehicleStaffForDriver >>>>>>",staffId,vehicleId);
+    	Optional<VehicleStaffDTO> opt = vehicleStaffService.AssignDriverAsVehicleStaffOfAnVehicle(staffId,vehicleId);
+		return ResponseUtil.wrapOrNotFound(opt);
+    	
+    }
+
 
 }
