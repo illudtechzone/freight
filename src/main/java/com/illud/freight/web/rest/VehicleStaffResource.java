@@ -136,7 +136,7 @@ public class VehicleStaffResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
     
-    @PostMapping("/assignvehiclestaff/{vehicleId}/{driverId}")
+    @PostMapping("/assignvehiclestaff/{staffId}/{vehicleId}")
     public ResponseEntity<VehicleStaffDTO> assignVehicleStaffForDriver(@PathVariable Long staffId,@PathVariable Long vehicleId){
     	log.debug("<<<<<<< assignVehicleStaffForDriver >>>>>>",staffId,vehicleId);
     	Optional<VehicleStaffDTO> opt = vehicleStaffService.AssignDriverAsVehicleStaffOfAnVehicle(staffId,vehicleId);

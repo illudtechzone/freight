@@ -120,13 +120,13 @@ public class VehicleStaffServiceImpl implements VehicleStaffService {
             .map(vehicleStaffMapper::toDto);
     }
     @Override
-	public Optional<VehicleStaffDTO> AssignDriverAsVehicleStaffOfAnVehicle(Long driverId,
+	public Optional<VehicleStaffDTO> AssignDriverAsVehicleStaffOfAnVehicle(Long staffId,
 			Long vehicleId) {
-    	log.debug("<<<<< AssignDriverAsVehicleStaffOfAnVehicle >>>>",driverId,vehicleId);
+    	log.debug("<<<<< AssignDriverAsVehicleStaffOfAnVehicle >>>>",staffId,vehicleId);
     	
     	VehicleStaffDTO vehStaffDTO = new VehicleStaffDTO();
     	vehStaffDTO.setVehicleId(vehicleId);
-    	vehStaffDTO.setStaffId(driverId);
+    	vehStaffDTO.setStaffId(staffId);
     	vehStaffDTO.setType(StaffType.DRIVER);
     	return Optional.of(save(vehStaffDTO));
 		
